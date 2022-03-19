@@ -4,7 +4,7 @@ import unittest
 
 from emulator.memory.memory_proxy import MemoryProxy
 
-class testOpCodeExecutor(unittest.TestCase):
+class testOpCodeExecutorLD(unittest.TestCase):
     def init_cpu(self) -> CPU:
         cpu = CPU(1)
         cpu.register.a8 = 0x1
@@ -25,7 +25,6 @@ class testOpCodeExecutor(unittest.TestCase):
         cpu = self.init_cpu()
         executor = OpcodeExecutor()
         executor.load_opcodes()
-        # Copy reg B in reg A
         # LD,"A,B",0x78,4
         cycles = executor.execute(cpu, 0x78)
         self.assertEqual(cpu.register.a8, 0x2)
@@ -36,11 +35,51 @@ class testOpCodeExecutor(unittest.TestCase):
         cpu = self.init_cpu()
         executor = OpcodeExecutor()
         executor.load_opcodes()
-        # Copy reg A in reg A
         # LD,"A,A",0x7F,4
         cycles = executor.execute(cpu, 0x7F)
         self.assertEqual(cpu.register.a8, 0x1)
         self.assertEqual(cycles, 4)
+
+    def testLDfromcombinedRegister(self):
+        cpu = self.init_cpu()
+        executor = OpcodeExecutor()
+        executor.load_opcodes()
+        # LD,"A,(HL)",0x7E,8
+        cycles = executor.execute(cpu, 0x7E)
+        self.assertEqual(cpu.register.hl16, 0x0708)
+        self.assertEqual(cpu.register.a8, 0x08)
+        self.assertEqual(cycles, 8)
+
+    def testLDtocombinedRegister(self):
+        cpu = self.init_cpu()
+        executor = OpcodeExecutor()
+        executor.load_opcodes()
+        # LD,"(HL),A",0x77,8
+        cycles = executor.execute(cpu, 0x77)
+        self.assertEqual(cpu.register.a8, 0x01)
+        self.assertEqual(cpu.register.hl16, 0x01)
+        self.assertEqual(cycles, 8)
+        
+    def testLDtocombinedRegister(self):
+        cpu = self.init_cpu()
+        executor = OpcodeExecutor()
+        executor.load_opcodes()
+        # LD,"(HL),A",0x77,8
+        cycles = executor.execute(cpu, 0x77)
+        self.assertEqual(cpu.register.a8, 0x01)
+        self.assertEqual(cpu.register.hl16, 0x01)
+        self.assertEqual(cycles, 8)
+        
+    def testLDtocombinedRegister(self):
+        cpu = self.init_cpu()
+        executor = OpcodeExecutor()
+        executor.load_opcodes()
+        # copy from the memory to register B
+        # LD,"B,n",0x06,8
+        cycles = executor.execute(cpu, 0x06)
+        self.assertEqual(cpu.register.b8, 0x0F)
+        self.assertEqual(cpu.register.pc16, 1)
+        self.assertEqual(cycles, 8)
 
 if __name__ == '__main__':
     unittest.main()      

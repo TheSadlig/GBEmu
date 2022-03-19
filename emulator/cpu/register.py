@@ -1,18 +1,85 @@
 class Register:
     def __init__(self):
         # For once we will keep everything public. There will be a lot of operations on those
-        self.a8 = 0x0
-        self.f8 = 0x0 # flag register
-        self.b8 = 0x0
-        self.c8 = 0x0
-        self.d8 = 0x0
-        self.e8 = 0x0
-        self.h8 = 0x0
-        self.l8 = 0x0
+        self._a8 = 0x0
+        self._f8 = 0x0 # flag register
+        self._b8 = 0x0
+        self._c8 = 0x0
+        self._d8 = 0x0
+        self._e8 = 0x0
+        self._h8 = 0x0
+        self._l8 = 0x0
         
         self.sp16 = 0x0
         self.pc16 = 0x0
     
+    # Handling single byte registers
+    @property
+    def a8(self):
+        return self._a8 
+    
+    @a8.setter
+    def a8(self, value):
+        self._a8 = value & 0xFF
+
+    @property
+    def f8(self):
+        return self._f8 
+    
+    @f8.setter
+    def f8(self, value):
+        self._f8 = value & 0xFF
+    
+    
+    @property
+    def b8(self):
+        return self._b8 
+    
+    @b8.setter
+    def b8(self, value):
+        self._b8 = value & 0xFF
+    
+    @property
+    def c8(self):
+        return self._c8 
+    
+    @c8.setter
+    def c8(self, value):
+        self._c8 = value & 0xFF
+
+    @property
+    def d8(self):
+        return self._d8 
+    
+    @d8.setter
+    def d8(self, value):
+        self._d8 = value & 0xFF
+    
+    @property
+    def e8(self):
+        return self._e8 
+    
+    @e8.setter
+    def e8(self, value):
+        self._e8 = value & 0xFF
+    
+    @property
+    def h8(self):
+        return self._h8 
+    
+    @h8.setter
+    def h8(self, value):
+        self._h8 = value & 0xFF
+    
+    @property
+    def l8(self):
+        return self._l8 
+    
+    @l8.setter
+    def l8(self, value):
+        self._l8 = value & 0xFF
+    
+    # Handling the combined registers 
     @property
     def af16(self):
         return self.a8 << 8 | self.f8
