@@ -1,6 +1,6 @@
 from atexit import register
 import unittest
-from emulator.base import Register
+from emulator.cpu.register import Register
 
 class testRegister(unittest.TestCase):
     def test_af(self):

@@ -1,5 +1,5 @@
-from emulator.base import CPU
-from emulator.opcode_executor import OpcodeExecutor
+from emulator.cpu.cpu import CPU
+from emulator.cpu.opcode_executor import OpcodeExecutor
 import unittest
 
 class testOpCodeExecutor(unittest.TestCase):
