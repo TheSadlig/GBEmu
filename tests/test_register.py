@@ -7,45 +7,45 @@ class testRegister(unittest.TestCase):
         reg = Register() 
         self.assertEqual(reg.a8, 0)
         self.assertEqual(reg.f8, 0)
-        reg.af16 = 0xFA
-        self.assertEqual(reg.a8, 0xF)
-        self.assertEqual(reg.f8, 0xA)
+        reg.af16 = 0xFABC
+        self.assertEqual(reg.a8, 0xFA)
+        self.assertEqual(reg.f8, 0xBC)
         reg.af16 = 0xAF
-        self.assertEqual(reg.a8, 0xA)
-        self.assertEqual(reg.f8, 0xF)
+        self.assertEqual(reg.a8, 0x00)
+        self.assertEqual(reg.f8, 0xAF)
 
     def test_bc(self):
         reg = Register() 
         self.assertEqual(reg.b8, 0)
         self.assertEqual(reg.c8, 0)
-        reg.bc16 = 0xFA
-        self.assertEqual(reg.b8, 0xF)
-        self.assertEqual(reg.c8, 0xA)
+        reg.bc16 = 0xFABC
+        self.assertEqual(reg.b8, 0xFA)
+        self.assertEqual(reg.c8, 0xBC)
         reg.bc16 = 0xAF
-        self.assertEqual(reg.b8, 0xA)
-        self.assertEqual(reg.c8, 0xF)
+        self.assertEqual(reg.b8, 0x00)
+        self.assertEqual(reg.c8, 0xAF)
 
     def test_de(self):
         reg = Register() 
         self.assertEqual(reg.d8, 0)
         self.assertEqual(reg.e8, 0)
-        reg.de16 = 0xFA
-        self.assertEqual(reg.d8, 0xF)
-        self.assertEqual(reg.e8, 0xA)
+        reg.de16 = 0xFABC
+        self.assertEqual(reg.d8, 0xFA)
+        self.assertEqual(reg.e8, 0xBC)
         reg.de16 = 0xAF
-        self.assertEqual(reg.d8, 0xA)
-        self.assertEqual(reg.e8, 0xF)
+        self.assertEqual(reg.d8, 0x00)
+        self.assertEqual(reg.e8, 0xAF)
 
     def test_hl(self):
         reg = Register() 
         self.assertEqual(reg.h8, 0)
         self.assertEqual(reg.l8, 0)
-        reg.hl16 = 0xFA
-        self.assertEqual(reg.h8, 0xF)
-        self.assertEqual(reg.l8, 0xA)
+        reg.hl16 = 0xFABC
+        self.assertEqual(reg.h8, 0xFA)
+        self.assertEqual(reg.l8, 0xBC)
         reg.hl16 = 0xAF
-        self.assertEqual(reg.h8, 0xA)
-        self.assertEqual(reg.l8, 0xF)
+        self.assertEqual(reg.h8, 0x00)
+        self.assertEqual(reg.l8, 0xAF)
 
     def test_z(self):
         reg = Register() 

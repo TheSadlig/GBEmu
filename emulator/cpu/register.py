@@ -15,39 +15,39 @@ class Register:
     
     @property
     def af16(self):
-        return self.a8 << 4 | self.f8
+        return self.a8 << 8 | self.f8
 
     @af16.setter
     def af16(self, value):
-        self.a8 = (value & 0xF0) >> 4 
-        self.f8 = value & 0x0F
+        self.a8 = (value & 0xFF00) >> 8
+        self.f8 = value & 0x00FF
 
     @property
     def bc16(self):
-        return self.b8 << 4 | self.c8
+        return self.b8 << 8 | self.c8
 
     @bc16.setter
     def bc16(self, value):
-        self.b8 = (value & 0xF0) >> 4 
-        self.c8 = value & 0x0F
+        self.b8 = (value & 0xFF00) >> 8 
+        self.c8 = value & 0x00FF
 
     @property
     def de16(self):
-        return self.d8 << 4 | self.e8
+        return self.d8 << 8 | self.e8
 
     @de16.setter
     def de16(self, value):
-        self.d8 = (value & 0xF0) >> 4 
-        self.e8 = value & 0x0F
+        self.d8 = (value & 0xFF00) >> 8
+        self.e8 = value & 0x00FF
 
     @property
     def hl16(self):
-        return self.h8 << 4 | self.l8
+        return self.h8 << 8 | self.l8
 
     @hl16.setter
     def hl16(self, value):
-        self.h8 = (value & 0xF0) >> 4 
-        self.l8 = value & 0x0F
+        self.h8 = (value & 0xFF00) >> 8 
+        self.l8 = value & 0x00FF
 
     @property
     def z1(self):
