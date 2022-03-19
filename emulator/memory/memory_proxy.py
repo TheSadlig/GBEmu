@@ -1,6 +1,7 @@
 # This class routes the request to the correct memory based on its address
 # It contains the whole gameboy memory (WRAM, VRAM, ROM)
 
+from xmlrpc.client import boolean
 from emulator.memory.memory import Ram, Rom, Memory
 
 
@@ -45,7 +46,7 @@ class MemoryProxy:
         self._add_memory_block(MemoryProxy.NONUSABLE_END, MemoryProxy.IO_END)
         self._add_memory_block(MemoryProxy.IO_END, MemoryProxy.HRAM_END)
 
-    def write8(self, address16, data8):
+    def write8(self, address16: bytes, data8: bytes) -> boolean:
         for memory_block in self.addressable_memory:
             if memory_block.is_adress_in_range(address16) and memory_block.is_writable():
                 memory_block.write8(address16, data8)
@@ -53,7 +54,7 @@ class MemoryProxy:
         # Raise exception ?
         return False
 
-    def read8(self, address16):
+    def read8(self, address16: bytes) -> bytes:
         for memory_block in self.addressable_memory:
             if memory_block.is_adress_in_range(address16):
                 return memory_block.read8(address16) 
@@ -61,14 +62,14 @@ class MemoryProxy:
         return None
 
     # loads a bytearray directly into a ROM address
-    def load_rom(self, address16, memory_to_write: bytearray):
+    def load_rom(self, address16: bytes, memory_to_write: bytearray):
         for memory_block in self.addressable_memory:
             if memory_block.is_adress_in_range(address16) and not memory_block.is_writable():
                 memory_block.load(memory_to_write)
                 return True
         return False
 
-    def _add_memory_block(self, previous_end, end_address, is_rom=False):
+    def _add_memory_block(self, previous_end: bytes, end_address: bytes, is_rom=False):
         if is_rom:
             self.addressable_memory.append(Rom(previous_end, end_address, MemoryProxy.ADDRESSABLE_MEMORY_SIZE))
         else:

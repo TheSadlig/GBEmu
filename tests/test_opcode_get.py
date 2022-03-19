@@ -4,7 +4,7 @@ from emulator.cpu.cpu import CPU
 from emulator.memory.memory_proxy import MemoryProxy
 from emulator.cpu.opcode_executor import Opcode
 
-class testOpCodeExecutor(unittest.TestCase):
+class testOpCodeGet(unittest.TestCase):
     def init_cpu(self) -> CPU:
         cpu = CPU(1)
         cpu.register.a8 = 0x1
