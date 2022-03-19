@@ -1,7 +1,7 @@
 from emulator.cpu.cpu import CPU
 
 class Opcode:
-    def __init__(self, instruction, params, opcode, cycles):
+    def __init__(self, instruction: str, params: str, opcode: int, cycles: int):
         self.instruction = instruction
         self.params = params.split(',')
         self.opcode = opcode
@@ -83,4 +83,4 @@ class Opcode:
             print("unsupported: " + param)
 
     def __str__(self) -> str:
-        return self.instruction + " " + self.params[0] + "," + self.params[1] + "   # " + self.opcode + " - " + self.cycles
+        return self.instruction + " " + self.params[0] + "," + self.params[1] + "   # " + str(hex(self.opcode)) + " - " + str(self.cycles)
