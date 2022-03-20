@@ -19,7 +19,6 @@ class OpcodeExecutor:
     # Assumes that if opc_hex starts with CB, the next Byte is already retrieved !
     def execute(self, cpu: CPU, opc_hex: int):    
         opcode = self.opcodes[opc_hex]
-        print(opcode)
         if opcode.instruction == "LD":
             return Commands8bits.LD(cpu, opcode)
         elif opcode.instruction == "LDD":
@@ -54,6 +53,19 @@ class OpcodeExecutor:
             return Commands8bits.DAA(cpu, opcode)
         elif opcode.instruction == "CPL":
             return Commands8bits.CPL(cpu, opcode)
+        elif opcode.instruction == "CCF":
+            return Commands8bits.CCF(cpu, opcode)
+        elif opcode.instruction == "SCF":
+            return Commands8bits.SCF(cpu, opcode)
+        elif opcode.instruction == "NOP":
+            # No operation
+            return
+        elif opcode.instruction == "HALT":
+            # TODO: evaluate whether we need to do something for that ?
+            return
+        elif opcode.instruction == "STOP":
+            # TODO: evaluate whether we need to do something for that ?
+            return
         # 16 bits
         elif opcode.instruction == "PUSH":
             return Commands16bits.PUSH(cpu, opcode)

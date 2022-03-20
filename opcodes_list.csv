@@ -263,3 +263,19 @@ DAA,"A",0x27,4
 
 # CPL operation (changed from CPL -/- for compatibilty)
 CPL,"A",0x2F,4
+
+# CCF operation (flip carry flag)
+CCF,-,0x3F,4
+
+# SCF Set carry flag
+SCF,-,0x3F,4
+
+# NOP
+NOP,-,0x00,4
+
+# HALT
+HALT,-,0x76,4
+
+# STOP
+STOP,-,0x10,4,#Changed from 0x1000 to 0x10
+DI -/- F3 4

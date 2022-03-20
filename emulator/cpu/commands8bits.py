@@ -191,6 +191,19 @@ class Commands8bits:
         cpu.register.h1 = 1
         return opc.cycles
 
+    # Handles CCF (flips bit for Carry register Cy)
+    def CCF(cpu: CPU, opc: Opcode) -> int:
+        cpu.register.cy1 = ~cpu.register.cy1 & 0b1
+        cpu.register.n1 = 0
+        cpu.register.h1 = 0
+        return opc.cycles
+
+    # Handles SCF (set carry flag Cy)
+    def SCF(cpu: CPU, opc: Opcode) -> int:
+        cpu.register.cy1 = 1
+        cpu.register.n1 = 0
+        cpu.register.h1 = 0
+        return opc.cycles
 
     def _add_and_update_flags(cpu: CPU, value1: bytes, value2: bytes) -> bytes:
         # TODO We may need to handle the #FF + 1 case, as it loop back to 0 (won't here)
