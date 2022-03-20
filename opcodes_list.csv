@@ -183,5 +183,15 @@ OR,"A,E",0xB3,4
 OR,"A,H",0xB4,4
 OR,"A,L",0xB5,4
 OR,"A,(HL)",0xB6,8
-OR,"A,n",0xF6,8,# Corrected a mistake in the parameters here `
+OR,"A,n",0xF6,8,# Corrected a mistake in the parameters here
 
+# XOR operations - Changed from "XOR A" for compatibilty
+XOR,"A,A",0xAF,4
+XOR,"A,B",0xA8,4
+XOR,"A,C",0xA9,4
+XOR,"A,D",0xAA,4
+XOR,"A,E",0xAB,4
+XOR,"A,H",0xAC,4
+XOR,"A,L",0xAD,4
+XOR,"A,(HL)",0xAE,8
+XOR,"A,n",0xEE,8# Corrected a mistake in the parameters here

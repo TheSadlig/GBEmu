@@ -40,6 +40,11 @@ class OpcodeExecutor:
             return OpcodeExecutor.SBC(cpu, opcode)
         elif opcode.instruction == "AND":
             return OpcodeExecutor.AND(cpu, opcode)
+        elif opcode.instruction == "OR":
+            return OpcodeExecutor.OR(cpu, opcode)
+        elif opcode.instruction == "XOR":
+            return OpcodeExecutor.XOR(cpu, opcode)
+        
 
     # Loads from one place to another and returns the number of cycles
     def LD(cpu, opc: Opcode) -> int:
@@ -142,6 +147,19 @@ class OpcodeExecutor:
         value1 = opc.get_param1_value(cpu)
         value2 = opc.get_param2_value(cpu)
         res = value1 | value2 
+        opc.set_param1_value(cpu, res)
+        
+        cpu.register.z1 = 1 if res == 0 else 0
+        cpu.register.n1 = 0
+        cpu.register.h1 = 0
+        cpu.register.cy1 = 0
+        return opc.cycles
+
+    # Handles XOR
+    def XOR(cpu: CPU, opc: Opcode) -> int:
+        value1 = opc.get_param1_value(cpu)
+        value2 = opc.get_param2_value(cpu)
+        res = value1 ^ value2 
         opc.set_param1_value(cpu, res)
         
         cpu.register.z1 = 1 if res == 0 else 0
