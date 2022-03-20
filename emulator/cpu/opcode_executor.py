@@ -19,22 +19,9 @@ class OpcodeExecutor:
         opcode = self.opcodes[opc_hex]
         print(opcode)
         if opcode.instruction == "LD":
-            return OpcodeExecutor.load8bits(cpu, opcode)
+            return OpcodeExecutor.LD8bits(cpu, opcode)
     
     # Switches 8 bits from one place to another and returns the number of cycles
-    def load8bits(cpu, opc: Opcode) -> int:
+    def LD8bits(cpu, opc: Opcode) -> int:
         opc.set_param1_value(cpu, opc.get_param2_value(cpu))
         return opc.cycles
-
-
-executor = OpcodeExecutor()
-executor.load_opcodes()
-
-for key_opc in executor.opcodes:
-    cpu = CPU(10)
-    cpu.memory.load_rom(0, bytearray("LD c,n", "UTF-8"))
-
-    print(key_opc)
-    print(executor.opcodes[key_opc])
-#    print(executor.opcodes[key_opc].get_param2_value(cpu))
-    print("=======")

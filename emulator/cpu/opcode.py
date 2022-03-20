@@ -15,30 +15,36 @@ class Opcode:
 
     # returns the value for the second param, based on the current state (CPU, registers and/or memory)
     def get_param2_value(self, cpu: CPU) -> bytes:
-        param = self._clean_param(self.params[1])
+        is_param2_address = self.params[1].startswith("(")
 
+        param = self._clean_param(self.params[1])
+        value = self._get_from_reg(cpu, param)
+        
+        if is_param2_address:
+            return cpu.memory.read8(value)
+        else:
+            return value
+
+    def _get_from_reg(self, cpu: CPU, param:str) -> bytes:
+        register = cpu.register
         if (param.startswith('$')):
             # we need to handle a hardcoded address: e.g. $FFEE+C
             param_splitted = param.split('+')
             param_address1 = int(param_splitted[0].removeprefix('$'), 16)
-            param_address2 = self._get_from_reg_or_immediate(cpu, param_splitted[1])
+            param_address2 = self._get_from_reg(cpu, param_splitted[1])
 
-            address = param_address1 + param_address2
-            return cpu.memory.read8(address)
-        else:
-            return self._get_from_reg_or_immediate(cpu, param)
-    
-    def _get_from_reg_or_immediate(self, cpu: CPU, param:str) -> bytes:
-        register = cpu.register
-        if (param == 'n'):
+            return param_address1 + param_address2
+        elif (param == 'n'):
             # 8 bit immediate
-            print("Getting immediate 8" + param)
-            return cpu.get_next_opcode()
+            previousPcValue = register.pc16
+            register.pc16 += 1
+            return cpu.memory.read8(previousPcValue)
         elif (param == 'nn'):
             # 16 bits immediate
-            print("Getting immediate 16" + param)
-            # !!!! MAY BE LEAST SIGNIFICANT BYTE FIRST !!! TO CHECK
-            return cpu.get_next_opcode() << 8 | cpu.get_next_opcode()
+            # get_param2_value may get the value from the returned address (if "(nn)" and not "nn")
+            previousPcValue = register.pc16
+            register.pc16 += 2
+            return cpu.memory.read8(previousPcValue) << 8 | cpu.memory.read8(previousPcValue + 1) 
         elif (len(param) == 1):
             # Single letter, simple 8b register
             param = param + "8" 
@@ -54,15 +60,11 @@ class Opcode:
 
     # Sets the given value to the proper place/register
     def set_param1_value(self, cpu:CPU, value:hex):
+        is_param1_address = self.params[0].startswith("(")
         param = self._clean_param(self.params[0])
 
-        if (param.startswith('$')):
-            # we need to handle a hardcoded address: e.g. $FFEE+C
-            param_splitted = param.split('+')
-            param_address1 = int(param_splitted[0].removeprefix('$'), 16)
-            param_address2 = self._get_from_reg_or_immediate(cpu, param_splitted[1])
-            
-            address = param_address1 + param_address2
+        if (is_param1_address):
+            address = self._get_from_reg(cpu, param)
             cpu.memory.write8(address, value)
         else:
             self._set_value_from_param(cpu, param, value)

@@ -1,3 +1,4 @@
+from audioop import add
 from emulator.cpu.cpu import CPU
 from emulator.cpu.opcode_executor import OpcodeExecutor
 import unittest
@@ -5,6 +6,8 @@ import unittest
 from emulator.memory.memory_proxy import MemoryProxy
 
 class testOpCodeExecutorLD(unittest.TestCase):
+    
+    writtableMem = MemoryProxy.VRAM_END
     def init_cpu(self) -> CPU:
         cpu = CPU(1)
         cpu.register.a8 = 0x1
@@ -16,9 +19,9 @@ class testOpCodeExecutorLD(unittest.TestCase):
         cpu.register.h8 = 0x7
         cpu.register.l8 = 0x8
         cpu.register.sp16 = MemoryProxy.HRAM_END
-        cpu.register.pc16 = 0x0
+        # For testing we need to be in a writtable part of the memory
+        cpu.register.pc16 = testOpCodeExecutorLD.writtableMem
 
-        cpu.memory.load_rom(0, bytearray([0x0F,0x0E,0x0D,0x0C]))
         return cpu
     
     def testLDsimpleRegister(self):
@@ -40,45 +43,47 @@ class testOpCodeExecutorLD(unittest.TestCase):
         self.assertEqual(cpu.register.a8, 0x1)
         self.assertEqual(cycles, 4)
 
-    def testLDfromcombinedRegister(self):
+    def testLDfromRegisterAddress(self):
         cpu = self.init_cpu()
+        
+        address = testOpCodeExecutorLD.writtableMem + 10
+        cpu.register.hl16 = address
+        cpu.memory.write8(address, 0xBD)
+
         executor = OpcodeExecutor()
         executor.load_opcodes()
         # LD,"A,(HL)",0x7E,8
         cycles = executor.execute(cpu, 0x7E)
-        self.assertEqual(cpu.register.hl16, 0x0708)
-        self.assertEqual(cpu.register.a8, 0x08)
+        self.assertEqual(cpu.register.hl16, address)
+        self.assertEqual(cpu.register.a8, 0xBD)
         self.assertEqual(cycles, 8)
+        
+    def testLDtoRegisterAddress(self):
+        cpu = self.init_cpu()
 
-    def testLDtocombinedRegister(self):
-        cpu = self.init_cpu()
+        address = testOpCodeExecutorLD.writtableMem
+        cpu.register.hl16 = address
+        cpu.memory.write8(address, 0xED)
+
         executor = OpcodeExecutor()
         executor.load_opcodes()
         # LD,"(HL),A",0x77,8
         cycles = executor.execute(cpu, 0x77)
-        self.assertEqual(cpu.register.a8, 0x01)
-        self.assertEqual(cpu.register.hl16, 0x01)
+        self.assertEqual(cpu.memory.read8(address), cpu.register.a8)
         self.assertEqual(cycles, 8)
         
-    def testLDtocombinedRegister(self):
+    def testLDfromImmediate(self):
         cpu = self.init_cpu()
+
+        cpu.memory.write8(cpu.register.pc16, 0xBF)
+
         executor = OpcodeExecutor()
         executor.load_opcodes()
-        # LD,"(HL),A",0x77,8
-        cycles = executor.execute(cpu, 0x77)
-        self.assertEqual(cpu.register.a8, 0x01)
-        self.assertEqual(cpu.register.hl16, 0x01)
-        self.assertEqual(cycles, 8)
-        
-    def testLDtocombinedRegister(self):
-        cpu = self.init_cpu()
-        executor = OpcodeExecutor()
-        executor.load_opcodes()
-        # copy from the memory to register B
+        # copy from the immediate byte to register B
         # LD,"B,n",0x06,8
         cycles = executor.execute(cpu, 0x06)
-        self.assertEqual(cpu.register.b8, 0x0F)
-        self.assertEqual(cpu.register.pc16, 1)
+        self.assertEqual(cpu.register.b8, 0xBF)
+        self.assertEqual(cpu.register.pc16, testOpCodeExecutorLD.writtableMem + 1)
         self.assertEqual(cycles, 8)
 
 if __name__ == '__main__':

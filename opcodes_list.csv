@@ -1,4 +1,5 @@
 # Instruction,Parameters,Opcode,Cycles
+# Normal LD operations
 LD,"B,n",0x06,8
 LD,"C,n",0x0E,8
 LD,"D,n",0x16,8
@@ -86,3 +87,6 @@ LD,"(DE),A",0x12,8
 LD,"(HL),A",0x77,8
 LD,"(nn),A",0xEA,16
 LD,"A,($FF00+C)",0xF2,8, # Changed from LD A,(C) for clarity
+# LDD operations
+LDD,"A,(HL)",3A,8
+LDD,(HL),A,32,8
