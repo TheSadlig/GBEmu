@@ -1,4 +1,5 @@
 from audioop import add
+from emulator.cpu.commands8bits import Commands8bits
 from emulator.cpu.cpu import CPU
 from emulator.cpu.opcode_executor import OpcodeExecutor
 import unittest
@@ -104,22 +105,22 @@ class testOpCodeExecutorLD(unittest.TestCase):
         self.assertEqual(cycles, 4)
 
     def testHas4bitCarryOver(self):
-        self.assertTrue(OpcodeExecutor.has4bitCarryOver(0xF, 0x1))
-        self.assertTrue(OpcodeExecutor.has4bitCarryOver(0xA, 0x8))
+        self.assertTrue(Commands8bits.has4bitCarryOver(0xF, 0x1))
+        self.assertTrue(Commands8bits.has4bitCarryOver(0xA, 0x8))
 
-        self.assertFalse(OpcodeExecutor.has4bitCarryOver(0x5, 0x1))
-        self.assertFalse(OpcodeExecutor.has4bitCarryOver(0xA, 0x4))
-        self.assertFalse(OpcodeExecutor.has4bitCarryOver(0xF, 0x0))
+        self.assertFalse(Commands8bits.has4bitCarryOver(0x5, 0x1))
+        self.assertFalse(Commands8bits.has4bitCarryOver(0xA, 0x4))
+        self.assertFalse(Commands8bits.has4bitCarryOver(0xF, 0x0))
         
     def testHas8bitCarryOver(self):
-        self.assertTrue(OpcodeExecutor.has8bitCarryOver(0xFF, 0x01))
-        self.assertTrue(OpcodeExecutor.has8bitCarryOver(0xFF, 0xFF))
+        self.assertTrue(Commands8bits.has8bitCarryOver(0xFF, 0x01))
+        self.assertTrue(Commands8bits.has8bitCarryOver(0xFF, 0xFF))
         
-        self.assertFalse(OpcodeExecutor.has8bitCarryOver(0xAF, 0x41))
-        self.assertFalse(OpcodeExecutor.has8bitCarryOver(0xF, 0x01))
-        self.assertFalse(OpcodeExecutor.has8bitCarryOver(0x05, 0x01))
-        self.assertFalse(OpcodeExecutor.has8bitCarryOver(0xAF, 0x40))
-        self.assertFalse(OpcodeExecutor.has8bitCarryOver(0xFF, 0x00))
+        self.assertFalse(Commands8bits.has8bitCarryOver(0xAF, 0x41))
+        self.assertFalse(Commands8bits.has8bitCarryOver(0xF, 0x01))
+        self.assertFalse(Commands8bits.has8bitCarryOver(0x05, 0x01))
+        self.assertFalse(Commands8bits.has8bitCarryOver(0xAF, 0x40))
+        self.assertFalse(Commands8bits.has8bitCarryOver(0xFF, 0x00))
         
 
 if __name__ == '__main__':

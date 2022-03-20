@@ -226,3 +226,9 @@ DEC,"E",0x1D,4
 DEC,"H",0x25,4
 DEC,"L",0x2D,4
 DEC,"(HL)",0x35,12
+
+# ADD 16bits
+ADD,"HL,BC",0x09,8
+ADD,"HL,DE",0x19,8
+ADD,"HL,HL",0x29,8
+ADD,"HL,SP",0x39,8
