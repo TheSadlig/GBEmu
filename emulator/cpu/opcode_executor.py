@@ -28,10 +28,6 @@ class OpcodeExecutor:
             return Commands8bits.LDI(cpu, opcode)
         elif opcode.instruction == "LDHL":
             return Commands8bits.LDHL(cpu, opcode)
-        elif opcode.instruction == "PUSH":
-            return Commands16bits.PUSH(cpu, opcode)
-        elif opcode.instruction == "POP":
-            return Commands16bits.POP(cpu, opcode)
         elif opcode.instruction == "ADD":
             return Commands8bits.ADD(cpu, opcode)
         elif opcode.instruction == "ADC":
@@ -52,5 +48,14 @@ class OpcodeExecutor:
             return Commands8bits.INC(cpu, opcode)
         elif opcode.instruction == "DEC":
             return Commands8bits.DEC(cpu, opcode)
+        # 16 bits
+        elif opcode.instruction == "PUSH":
+            return Commands16bits.PUSH(cpu, opcode)
+        elif opcode.instruction == "POP":
+            return Commands16bits.POP(cpu, opcode)
+        elif opcode.instruction == "ADD16":
+            return Commands16bits.ADD16(cpu, opcode)
+        elif opcode.instruction == "ADD16SP":
+            return Commands16bits.ADD16SP(cpu, opcode)
         
 

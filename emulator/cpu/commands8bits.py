@@ -140,7 +140,7 @@ class Commands8bits:
         return opc.cycles
 
     def _add_and_update_flags(cpu: CPU, value1: bytes, value2: bytes) -> bytes:
-        # TODO We may need to handle the #FFFF + 1 case, as it loop back to 0 (won't here)
+        # TODO We may need to handle the #FF + 1 case, as it loop back to 0 (won't here)
         addition = value1 + value2
 
         # setting flags

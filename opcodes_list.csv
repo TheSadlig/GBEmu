@@ -228,7 +228,10 @@ DEC,"L",0x2D,4
 DEC,"(HL)",0x35,12
 
 # ADD 16bits
-ADD,"HL,BC",0x09,8
-ADD,"HL,DE",0x19,8
-ADD,"HL,HL",0x29,8
-ADD,"HL,SP",0x39,8
+ADD16,"HL,BC",0x09,8
+ADD16,"HL,DE",0x19,8
+ADD16,"HL,HL",0x29,8
+ADD16,"HL,SP",0x39,8
+
+# ADD 16bits SP
+ADD16SP,"SP,n"0xE8,16,# Corrected a mistake in the parameters here
