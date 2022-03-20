@@ -260,3 +260,6 @@ SWAP,"(HL),(HL)",0xCB36,16
 
 # DAA operation (changed from DAA -/- for compatibilty)
 DAA,"A",0x27,4
+
+# CPL operation (changed from CPL -/- for compatibilty)
+CPL,"A",0x2F,4

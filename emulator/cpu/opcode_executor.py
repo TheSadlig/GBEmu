@@ -52,6 +52,8 @@ class OpcodeExecutor:
             return Commands8bits.SWAP(cpu, opcode)
         elif opcode.instruction == "DAA":
             return Commands8bits.DAA(cpu, opcode)
+        elif opcode.instruction == "CPL":
+            return Commands8bits.CPL(cpu, opcode)
         # 16 bits
         elif opcode.instruction == "PUSH":
             return Commands16bits.PUSH(cpu, opcode)

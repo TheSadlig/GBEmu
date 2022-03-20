@@ -152,7 +152,7 @@ class Commands8bits:
         cpu.register.z1 = 1 if res == 0 else 0
         cpu.register.n1 = 0
         cpu.register.h1 = 0
-        cpu.register.c1 = 0
+        cpu.register.cy1 = 0
         return opc.cycles
 
     # Handles DAA (Decimal adjust register A)
@@ -179,6 +179,18 @@ class Commands8bits:
         cpu.register.n1 = 0
         print("res" + str(hex(value)))
         opc.set_param1_value(cpu, value)
+
+    # Handles CPL (flips all bits from register A)
+    def CPL(cpu: CPU, opc: Opcode) -> int:
+        value = opc.get_param1_value(cpu)
+
+        opc.set_param1_value(cpu, (~value) & 0xFF )
+        
+        cpu.register.z1 = 0
+        cpu.register.n1 = 1
+        cpu.register.h1 = 1
+        return opc.cycles
+
 
     def _add_and_update_flags(cpu: CPU, value1: bytes, value2: bytes) -> bytes:
         # TODO We may need to handle the #FF + 1 case, as it loop back to 0 (won't here)
