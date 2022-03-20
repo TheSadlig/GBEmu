@@ -1,5 +1,4 @@
 import csv
-from xmlrpc.client import boolean
 from emulator.cpu.cpu import CPU
 from emulator.cpu.opcode import Opcode
 
@@ -33,6 +32,10 @@ class OpcodeExecutor:
             return OpcodeExecutor.POP(cpu, opcode)
         elif opcode.instruction == "ADD":
             return OpcodeExecutor.ADD(cpu, opcode)
+        elif opcode.instruction == "ADC":
+            return OpcodeExecutor.ADC(cpu, opcode)
+        elif opcode.instruction == "SUB":
+            return OpcodeExecutor.SUB(cpu, opcode)
 
     # Loads from one place to another and returns the number of cycles
     def LD(cpu, opc: Opcode) -> int:
@@ -93,11 +96,27 @@ class OpcodeExecutor:
 
         return opc.cycles
 
-    # Handles ADC (add the cary flag + )
+    # Handles ADC (also adds the carry flag)
     def ADC(cpu: CPU, opc: Opcode) -> int:
         value1 = opc.get_param1_value(cpu)
         value2 = opc.get_param2_value(cpu)
         opc.set_param1_value(cpu, OpcodeExecutor._add_and_update_flags(cpu, value1, value2 + cpu.register.cy1))
+
+        return opc.cycles
+
+    # Handles SUB
+    def SUB(cpu: CPU, opc: Opcode) -> int:
+        value1 = opc.get_param1_value(cpu)
+        value2 = opc.get_param2_value(cpu)
+        opc.set_param1_value(cpu, OpcodeExecutor._sub_and_update_flags(cpu, value1, value2))
+
+        return opc.cycles
+
+    # Handles SBC (also substracts the carry flag)
+    def SBC(cpu: CPU, opc: Opcode) -> int:
+        value1 = opc.get_param1_value(cpu)
+        value2 = opc.get_param2_value(cpu)
+        opc.set_param1_value(cpu, OpcodeExecutor._sub_and_update_flags(cpu, value1, value2 + cpu.register.cy1))
 
         return opc.cycles
 
@@ -112,10 +131,28 @@ class OpcodeExecutor:
         cpu.register.cy1 = 1 if OpcodeExecutor.has8bitCarryOver(value1, value2) else 0
         return addition
 
+    def _sub_and_update_flags(cpu: CPU, value1: bytes, value2: bytes) -> bytes:
+        sub = value1 - value2
+
+        # setting flags
+        cpu.register.z1 = 1 if sub == 0 else 0
+        cpu.register.n1 = 1
+        cpu.register.h1 = 1 if OpcodeExecutor.has4bitBorrow(value1, value2) else 0
+        cpu.register.cy1 = 1 if OpcodeExecutor.has8bitBorrow(value1, value2) else 0
+        return sub
+
     # returns true of there is a half carry over
-    def has4bitCarryOver(value1, value2) -> boolean:
+    def has4bitCarryOver(value1, value2) -> bool:
         return ((( value1 & 0xf) + (value2 & 0xf)) & 0x10) == 0x10
     
     # returns true of there is a carry over
-    def has8bitCarryOver(value1, value2) -> boolean:
+    def has8bitCarryOver(value1, value2) -> bool:
         return ((( value1 & 0xFF) + (value2 & 0xFF)) & 0x100) == 0x100
+
+    # returns true if in value1 - value 2, value2 > value 1 for 4 bits
+    def has4bitBorrow(value1, value2) -> bool:
+        return (value2  & 0xFF) > (value1 & 0xFF)
+
+    # returns true if in value1 - value 2, value2 > value 1 for 8 bits
+    def has8bitBorrow(value1, value2) -> bool:
+        return (value2  & 0xFFFF) > (value1 & 0xFFFF)

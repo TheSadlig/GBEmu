@@ -140,3 +140,25 @@ ADC,"A,H",0x8C,4
 ADC,"A,L",0x8D,4
 ADC,"A,(HL)",0x8E,8
 ADC,"A,n",0xCE,8,# Corrected a mistake in the parameters here 
+
+# SUB operations - Changed from "SUB A" for compatibilty
+SUB,"A,A",0x97,4
+SUB,"A,B",0x90,4
+SUB,"A,C",0x91,4
+SUB,"A,D",0x92,4
+SUB,"A,E",0x93,4
+SUB,"A,H",0x94,4
+SUB,"A,L",0x95,4
+SUB,"A,(HL)",0x96,8
+SUB,"A,n",0xD6,8,# Corrected a mistake in the parameters here 
+
+# SBC operations
+SBC,"A,A",0x9F,4
+SBC,"A,B",0x98,4
+SBC,"A,C",0x99,4
+SBC,"A,D",0x9A,4
+SBC,"A,E",0x9B,4
+SBC,"A,H",0x9C,4
+SBC,"A,L",0x9D,4
+SBC,"A,(HL)",0x9E,8
+SBC,"A,n",0xDE,8,# Corrected mistakes here 
