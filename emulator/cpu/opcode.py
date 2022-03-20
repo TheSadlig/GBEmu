@@ -1,3 +1,4 @@
+import opcode
 from emulator.cpu.cpu import CPU
 
 class Opcode:
@@ -12,8 +13,26 @@ class Opcode:
         param = param.removesuffix(")")
         param = param.lower()
         return param 
+        
 
-    # returns the value for the second param, based on the current state (CPU, registers and/or memory)
+    # returns the value for the FIRST param, based on the current state (CPU, registers and/or memory)
+    def get_param1_value(self, cpu: CPU) -> bytes:
+        is_param1_address = self.params[0].startswith("(")
+
+        param = self._clean_param(self.params[0])
+        if param == 'n' or param == 'nn':
+            # Raising an exception because if we had n or nn, the code would increase the cp16 register which we don't want
+            raise WrongOpcodeError("`n` and `nn` are unsupported as first parameters", self.opcode)
+        
+        value = self._get_from_reg(cpu, param)
+        
+        if is_param1_address:
+            return cpu.memory.read8(value)
+        else:
+            return value
+
+    # returns the value for the SECOND param, based on the current state (CPU, registers and/or memory)
+    # If the parameter is "n" or "nn" (immediate), it will increase the program counter accordingly
     def get_param2_value(self, cpu: CPU) -> bytes:
         is_param2_address = self.params[1].startswith("(")
 
@@ -56,7 +75,7 @@ class Opcode:
             print("Getting register " + param)
             return register.get_register_by_name(param)
         else:
-            print("unsupported: " + param)
+            raise WrongOpcodeError("Unsupported opcode parameter:" + param, self.opcode)
 
     # Sets the given value to the proper place/register
     def set_param1_value(self, cpu:CPU, value:hex):
@@ -82,7 +101,16 @@ class Opcode:
             print("setting register " + param + " = " + str(hex(value)))
             register.set_register_by_name(param, value)
         else:
-            print("unsupported: " + param)
+            raise WrongOpcodeError("Unsupported opcode parameter:" + param, self.opcode)
 
     def __str__(self) -> str:
         return self.instruction + " " + self.params[0] + "," + self.params[1] + "   # " + str(hex(self.opcode)) + " - " + str(self.cycles)
+
+
+class WrongOpcodeError(Exception):
+    def __init__(self, message, opcode: Opcode):
+        self.message = message
+        self.opcode = opcode
+
+    def __str__(self):
+        return str(self.message) + " - " + str(self.opcode)

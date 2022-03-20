@@ -86,6 +86,23 @@ class testOpCodeExecutorLD(unittest.TestCase):
         self.assertEqual(cpu.register.pc16, testOpCodeExecutorLD.writtableMem + 1)
         self.assertEqual(cycles, 8)
 
+    def testADD(self):
+        cpu = self.init_cpu()
+
+        executor = OpcodeExecutor()
+        executor.load_opcodes()
+        # copy from the immediate byte to register B
+        # ADD,"A,B",0x80,4
+        cycles = executor.execute(cpu, 0x80)
+        self.assertEqual(cpu.register.a8, 0x3)
+        self.assertEqual(cpu.register.b8, 0x2)
+        self.assertEqual(cpu.register.pc16, testOpCodeExecutorLD.writtableMem)
+        self.assertEqual(cpu.register.z1, 0)
+        self.assertEqual(cpu.register.n1, 0)
+        self.assertEqual(cpu.register.h1, 0)
+        self.assertEqual(cpu.register.cy1, 0)
+        self.assertEqual(cycles, 4)
+
     def testHas4bitCarryOver(self):
         self.assertTrue(OpcodeExecutor.has4bitCarryOver(0xF, 0x1))
         self.assertTrue(OpcodeExecutor.has4bitCarryOver(0xA, 0x8))

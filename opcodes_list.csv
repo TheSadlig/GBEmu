@@ -118,3 +118,25 @@ POP,AF,0xF1,12
 POP,BC,0xC1,12
 POP,DE,0xD1,12
 POP,HL,0xE1,12
+
+# ADD operations
+ADD,"A,A",0x87,4
+ADD,"A,B",0x80,4
+ADD,"A,C",0x81,4
+ADD,"A,D",0x82,4
+ADD,"A,E",0x83,4
+ADD,"A,H",0x84,4
+ADD,"A,L",0x85,4
+ADD,"A,(HL)",0x86,8
+ADD,"A,n",0xC6,8,# Corrected a mistake in the parameters here 
+
+# ADC operations
+ADC,"A,A",0x8F,4
+ADC,"A,B",0x88,4
+ADC,"A,C",0x89,4
+ADC,"A,D",0x8A,4
+ADC,"A,E",0x8B,4
+ADC,"A,H",0x8C,4
+ADC,"A,L",0x8D,4
+ADC,"A,(HL)",0x8E,8
+ADC,"A,n",0xCE,8,# Corrected a mistake in the parameters here 

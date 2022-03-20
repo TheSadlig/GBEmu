@@ -46,31 +46,38 @@ class MemoryProxy:
         self._add_memory_block(MemoryProxy.NONUSABLE_END, MemoryProxy.IO_END)
         self._add_memory_block(MemoryProxy.IO_END, MemoryProxy.HRAM_END)
 
-    def write8(self, address16: bytes, data8: bytes) -> boolean:
+    def write8(self, address16: bytes, data8: bytes):
         for memory_block in self.addressable_memory:
             if memory_block.is_adress_in_range(address16) and memory_block.is_writable():
                 memory_block.write8(address16, data8)
-                return True
-        # Raise exception ?
-        return False
+                return
+        raise MemoryAccessError("Could not write to address. Block is non-existent or readonly", address16)
 
     def read8(self, address16: bytes) -> bytes:
         for memory_block in self.addressable_memory:
             if memory_block.is_adress_in_range(address16):
                 return memory_block.read8(address16) 
-        # Raise exception ?
-        return None
+        raise MemoryAccessError("Could not read from address. Block is non-existent", address16)
 
     # loads a bytearray directly into a ROM address
     def load_rom(self, address16: bytes, memory_to_write: bytearray):
         for memory_block in self.addressable_memory:
             if memory_block.is_adress_in_range(address16) and not memory_block.is_writable():
                 memory_block.load(memory_to_write)
-                return True
-        return False
+                return
+        raise MemoryAccessError("Could not write to address. Block is non-existent or readonly", address16)
 
     def _add_memory_block(self, previous_end: bytes, end_address: bytes, is_rom=False):
         if is_rom:
             self.addressable_memory.append(Rom(previous_end, end_address, MemoryProxy.ADDRESSABLE_MEMORY_SIZE))
         else:
             self.addressable_memory.append(Ram(previous_end, end_address, MemoryProxy.ADDRESSABLE_MEMORY_SIZE))
+
+
+class MemoryAccessError(Exception):
+    def __init__(self, message, address=None):
+        self.message = message
+        self.address = address
+    
+    def __str__(self):
+        return str(self.message) + " - address: " + str(hex(self.address))
