@@ -257,3 +257,6 @@ SWAP,"E,E",0xCB33,8
 SWAP,"H,H",0xCB34,8
 SWAP,"L,L",0xCB35,8
 SWAP,"(HL),(HL)",0xCB36,16
+
+# DAA operation (changed from DAA -/- for compatibilty)
+DAA,"A",0x27,4

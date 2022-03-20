@@ -92,7 +92,6 @@ class testOpCodeExecutorLD(unittest.TestCase):
 
         executor = OpcodeExecutor()
         executor.load_opcodes()
-        # copy from the immediate byte to register B
         # ADD,"A,B",0x80,4
         cycles = executor.execute(cpu, 0x80)
         self.assertEqual(cpu.register.a8, 0x3)
@@ -109,7 +108,6 @@ class testOpCodeExecutorLD(unittest.TestCase):
 
         executor = OpcodeExecutor()
         executor.load_opcodes()
-        # copy from the immediate byte to register B
         # SWAP,"A,A",0xCB37,8
         cpu.register.a8 = 0b01101001
         cycles = executor.execute(cpu, 0xCB37)

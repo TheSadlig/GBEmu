@@ -48,6 +48,10 @@ class OpcodeExecutor:
             return Commands8bits.INC(cpu, opcode)
         elif opcode.instruction == "DEC":
             return Commands8bits.DEC(cpu, opcode)
+        elif opcode.instruction == "SWAP":
+            return Commands8bits.SWAP(cpu, opcode)
+        elif opcode.instruction == "DAA":
+            return Commands8bits.DAA(cpu, opcode)
         # 16 bits
         elif opcode.instruction == "PUSH":
             return Commands16bits.PUSH(cpu, opcode)
@@ -61,6 +65,4 @@ class OpcodeExecutor:
             return Commands16bits.INC16(cpu, opcode)
         elif opcode.instruction == "DEC16":
             return Commands16bits.DEC16(cpu, opcode)
-        elif opcode.instruction == "SWAP":
-            return Commands8bits.SWAP(cpu, opcode)
 

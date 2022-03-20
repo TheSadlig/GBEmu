@@ -155,6 +155,31 @@ class Commands8bits:
         cpu.register.c1 = 0
         return opc.cycles
 
+    # Handles DAA (Decimal adjust register A)
+    # Each nibble of register A will represent a different decimal (See Binary Coded Decimal)
+    def DAA(cpu: CPU, opc: Opcode) -> int:
+        value = opc.get_param1_value(cpu)
+        
+        print("before" + str(hex(value)))
+        if cpu.register.n1 != 1:
+            # Previous operation was addition
+            if cpu.register.h1 == 1 or (value & 0xF) > 0x9:
+                value += 0x6
+            if cpu.register.cy1 == 1 or (value > 0x9F):
+                value += 0x60
+                cpu.register.cy1 = 1
+        else:
+            # Previous operation was substraction
+            if cpu.register.h1 == 1:
+                value -= 0x6
+            if cpu.register.cy1 == 1:
+                value -= 0x60
+        
+        cpu.register.z1 = 1 if value & 0xFF == 0 else 0
+        cpu.register.n1 = 0
+        print("res" + str(hex(value)))
+        opc.set_param1_value(cpu, value)
+
     def _add_and_update_flags(cpu: CPU, value1: bytes, value2: bytes) -> bytes:
         # TODO We may need to handle the #FF + 1 case, as it loop back to 0 (won't here)
         addition = value1 + value2

@@ -104,7 +104,10 @@ class Opcode:
             raise WrongOpcodeError("Unsupported opcode parameter:" + param, self.opcode)
 
     def __str__(self) -> str:
-        return self.instruction + " " + self.params[0] + "," + self.params[1] + "   # " + str(hex(self.opcode)) + " - " + str(self.cycles)
+        params_str = self.params[0]
+        if len(self.params) == 2:
+            params_str += "," + self.params[1] 
+        return self.instruction + " " + params_str + "   # " + str(hex(self.opcode)) + " - " + str(self.cycles)
 
 
 class WrongOpcodeError(Exception):
