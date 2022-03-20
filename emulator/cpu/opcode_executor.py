@@ -57,5 +57,8 @@ class OpcodeExecutor:
             return Commands16bits.ADD16(cpu, opcode)
         elif opcode.instruction == "ADD16SP":
             return Commands16bits.ADD16SP(cpu, opcode)
-        
+        elif opcode.instruction == "INC16":
+            return Commands16bits.INC16(cpu, opcode)
+        elif opcode.instruction == "DEC16":
+            return Commands16bits.DEC16(cpu, opcode)
 

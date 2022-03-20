@@ -34,6 +34,18 @@ class Commands16bits:
         cpu.register.z1 = 0
         return opc.cycles
 
+    # Handles INC
+    def INC16(cpu: CPU, opc: Opcode) -> int:
+        value1 = opc.get_param1_value(cpu)
+        opc.set_param1_value(cpu, value1 + 1)
+        return opc.cycles
+
+    # Handles DEC
+    def DEC16(cpu: CPU, opc: Opcode) -> int:
+        value1 = opc.get_param1_value(cpu)
+        opc.set_param1_value(cpu, value1 - 1)
+        return opc.cycles
+
     def _add_and_update_flags(cpu: CPU, value1: bytes, value2: bytes) -> bytes:
         # TODO We may need to handle the #FFFF + 1 case, as it should loop back to 0 (won't here)
         addition = value1 + value2
