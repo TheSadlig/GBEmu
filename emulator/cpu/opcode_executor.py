@@ -16,8 +16,8 @@ class OpcodeExecutor:
                     self.opcodes[opcode_hex] = opcode
     
     # Executes the instruction and returns the number of cycles
-    def execute(self, cpu: CPU, opc_hex: int):
-
+    # Assumes that if opc_hex starts with CB, the next Byte is already retrieved !
+    def execute(self, cpu: CPU, opc_hex: int):    
         opcode = self.opcodes[opc_hex]
         print(opcode)
         if opcode.instruction == "LD":
@@ -61,4 +61,6 @@ class OpcodeExecutor:
             return Commands16bits.INC16(cpu, opcode)
         elif opcode.instruction == "DEC16":
             return Commands16bits.DEC16(cpu, opcode)
+        elif opcode.instruction == "SWAP":
+            return Commands8bits.SWAP(cpu, opcode)
 

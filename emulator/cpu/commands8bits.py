@@ -139,6 +139,22 @@ class Commands8bits:
         
         return opc.cycles
 
+    # Handles SWAP (swaps the 4 upper bits with the 4 lower bits)
+    def SWAP(cpu: CPU, opc: Opcode) -> int:
+        value = opc.get_param1_value(cpu)
+        upper_nibble = (value & 0xF0) >> 4
+        lower_nibble = value & 0x0F
+        
+        res = (lower_nibble << 4) | upper_nibble
+        
+        opc.set_param1_value(cpu, res)
+        
+        cpu.register.z1 = 1 if res == 0 else 0
+        cpu.register.n1 = 0
+        cpu.register.h1 = 0
+        cpu.register.c1 = 0
+        return opc.cycles
+
     def _add_and_update_flags(cpu: CPU, value1: bytes, value2: bytes) -> bytes:
         # TODO We may need to handle the #FF + 1 case, as it loop back to 0 (won't here)
         addition = value1 + value2

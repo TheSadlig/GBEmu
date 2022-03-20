@@ -247,3 +247,13 @@ DEC16,BC,0x0B,8
 DEC16,DE,0x1B,8
 DEC16,HL,0x2B,8
 DEC16,SP,0x3B,8
+
+# SWAP operations (changed from SWAP A for compatibilty)
+SWAP,"A,A",0xCB37,8
+SWAP,"B,B",0xCB30,8
+SWAP,"C,C",0xCB31,8
+SWAP,"D,D",0xCB32,8
+SWAP,"E,E",0xCB33,8
+SWAP,"H,H",0xCB34,8
+SWAP,"L,L",0xCB35,8
+SWAP,"(HL),(HL)",0xCB36,16
