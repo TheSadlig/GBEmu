@@ -285,3 +285,14 @@ DI,-,0xF3,4
 # EI - Enable interrupts
 EI,-,0xFB,4
 
+# RLCA Rotate left (changed from RLCA -/- for compatibilty)
+RLCA,A,0x07,4
+
+# RLA Rotate left (changed from RLA -/- for compatibilty)
+RLA,A,0x17,4
+
+# RRCA Rotate right (changed from RRCA -/- for compatibilty)
+RRCA,A,0x0F,4
+
+# RRA Rotate right (changed from RRA -/- for compatibilty)
+RRA,-,0x1F,4
