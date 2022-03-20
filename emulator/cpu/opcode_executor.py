@@ -44,6 +44,12 @@ class OpcodeExecutor:
             return OpcodeExecutor.OR(cpu, opcode)
         elif opcode.instruction == "XOR":
             return OpcodeExecutor.XOR(cpu, opcode)
+        elif opcode.instruction == "CP":
+            return OpcodeExecutor.CP(cpu, opcode)
+        elif opcode.instruction == "INC":
+            return OpcodeExecutor.INC(cpu, opcode)
+        elif opcode.instruction == "DEC":
+            return OpcodeExecutor.DEC(cpu, opcode)
         
 
     # Loads from one place to another and returns the number of cycles
@@ -174,6 +180,30 @@ class OpcodeExecutor:
         value2 = opc.get_param2_value(cpu)
         OpcodeExecutor._sub_and_update_flags(cpu, value1, value2)
 
+        return opc.cycles
+
+   # Handles INC
+    def INC(cpu: CPU, opc: Opcode) -> int:
+        value1 = opc.get_param1_value(cpu)
+        
+        # The Cy flag should not be affected
+        cy_back = cpu.register.cy1
+        opc.set_param1_value(cpu, OpcodeExecutor._add_and_update_flags(cpu, value1, 1))
+
+        cpu.register.cy1 = cy_back
+
+        return opc.cycles
+
+    # Handles DEC
+    def DEC(cpu: CPU, opc: Opcode) -> int:
+        value1 = opc.get_param1_value(cpu)
+
+        # The Cy flag should not be affected
+        cy_back = cpu.register.cy1
+        opc.set_param1_value(cpu, OpcodeExecutor._sub_and_update_flags(cpu, value1, 1))
+
+        cpu.register.cy1 = cy_back
+        
         return opc.cycles
 
     def _add_and_update_flags(cpu: CPU, value1: bytes, value2: bytes) -> bytes:

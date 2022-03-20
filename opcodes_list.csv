@@ -206,3 +206,23 @@ CP,"A,H",0xBC,4
 CP,"A,L",0xBD,4
 CP,"A,(HL)",0xBE,8
 CP,"A,n",0xFE,8,# Corrected a mistake in the parameters here
+
+# INC operations
+INC,"A",0x3C,4
+INC,"B",0x04,4
+INC,"C",0x0C,4
+INC,"D",0x14,4
+INC,"E",0x1C,4
+INC,"H",0x24,4
+INC,"L",0x2C,4
+INC,"(HL)",0x34,12
+
+# DEC operations
+DEC,"A",0x3D,4
+DEC,"B",0x05,4
+DEC,"C",0x0D,4
+DEC,"D",0x15,4
+DEC,"E",0x1D,4
+DEC,"H",0x25,4
+DEC,"L",0x2D,4
+DEC,"(HL)",0x35,12
