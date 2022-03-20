@@ -5,6 +5,7 @@ from emulator.cpu.opcode_executor import OpcodeExecutor
 import unittest
 
 from emulator.memory.memory_proxy import MemoryProxy
+from emulator.tools.bit_tools import BitTools
 
 class testOpCodeExecutorLD(unittest.TestCase):
     
@@ -135,22 +136,22 @@ class testOpCodeExecutorLD(unittest.TestCase):
         self.assertEqual(cycles, 8)
 
     def testHas4bitCarryOver(self):
-        self.assertTrue(Commands8bits.has4bitCarryOver(0xF, 0x1))
-        self.assertTrue(Commands8bits.has4bitCarryOver(0xA, 0x8))
+        self.assertTrue(BitTools.has4bitCarryOver(0xF, 0x1))
+        self.assertTrue(BitTools.has4bitCarryOver(0xA, 0x8))
 
-        self.assertFalse(Commands8bits.has4bitCarryOver(0x5, 0x1))
-        self.assertFalse(Commands8bits.has4bitCarryOver(0xA, 0x4))
-        self.assertFalse(Commands8bits.has4bitCarryOver(0xF, 0x0))
+        self.assertFalse(BitTools.has4bitCarryOver(0x5, 0x1))
+        self.assertFalse(BitTools.has4bitCarryOver(0xA, 0x4))
+        self.assertFalse(BitTools.has4bitCarryOver(0xF, 0x0))
         
     def testHas8bitCarryOver(self):
-        self.assertTrue(Commands8bits.has8bitCarryOver(0xFF, 0x01))
-        self.assertTrue(Commands8bits.has8bitCarryOver(0xFF, 0xFF))
+        self.assertTrue(BitTools.has8bitCarryOver(0xFF, 0x01))
+        self.assertTrue(BitTools.has8bitCarryOver(0xFF, 0xFF))
         
-        self.assertFalse(Commands8bits.has8bitCarryOver(0xAF, 0x41))
-        self.assertFalse(Commands8bits.has8bitCarryOver(0xF, 0x01))
-        self.assertFalse(Commands8bits.has8bitCarryOver(0x05, 0x01))
-        self.assertFalse(Commands8bits.has8bitCarryOver(0xAF, 0x40))
-        self.assertFalse(Commands8bits.has8bitCarryOver(0xFF, 0x00))
+        self.assertFalse(BitTools.has8bitCarryOver(0xAF, 0x41))
+        self.assertFalse(BitTools.has8bitCarryOver(0xF, 0x01))
+        self.assertFalse(BitTools.has8bitCarryOver(0x05, 0x01))
+        self.assertFalse(BitTools.has8bitCarryOver(0xAF, 0x40))
+        self.assertFalse(BitTools.has8bitCarryOver(0xFF, 0x00))
         
 
 if __name__ == '__main__':

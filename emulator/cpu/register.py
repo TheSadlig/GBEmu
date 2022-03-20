@@ -1,3 +1,6 @@
+from emulator.tools.bit_tools import BitTools
+
+
 class Register:
     def __init__(self):
         self._a8 = 0x0
@@ -117,48 +120,37 @@ class Register:
 
     @property
     def z1(self):
-        return Register.get_bit(self.f8, 7)
+        return BitTools.get_bit(self.f8, 7)
 
     @z1.setter
     def z1(self, value):
-        self.f8 = Register.set_bit(self.f8, 7, value)
+        self.f8 = BitTools.set_bit(self.f8, 7, value)
 
     @property
     def n1(self):
-        return Register.get_bit(self.f8, 6)
+        return BitTools.get_bit(self.f8, 6)
 
     @n1.setter
     def n1(self, value):
-        self.f8 = Register.set_bit(self.f8, 6, value)
+        self.f8 = BitTools.set_bit(self.f8, 6, value)
 
     @property
     def h1(self):
-        return Register.get_bit(self.f8, 5)
+        return BitTools.get_bit(self.f8, 5)
 
     @h1.setter
     def h1(self, value):
-        self.f8 = Register.set_bit(self.f8, 5, value)
+        self.f8 = BitTools.set_bit(self.f8, 5, value)
 
     @property
     def cy1(self):
-        return Register.get_bit(self.f8, 4)
+        return BitTools.get_bit(self.f8, 4)
 
     @cy1.setter
     def cy1(self, value):
-        self.f8 = Register.set_bit(self.f8, 4, value)
+        self.f8 = BitTools.set_bit(self.f8, 4, value)
 
 
-    def clear_bit(byte, position):
-        byte &= ~(1 << position) 
-        return byte
-    
-    def set_bit(byte, position, value):
-        byte = Register.clear_bit(byte, position)
-        byte = (byte | (value << position)) 
-        return byte
-
-    def get_bit(byte, position):
-        return (byte & 1 << position) >> position
 
     def get_register_by_name(self, registerName):
         return Register.__getattribute__(self, registerName)

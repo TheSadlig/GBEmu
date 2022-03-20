@@ -1,5 +1,6 @@
 from emulator.cpu.cpu import CPU
 from emulator.cpu.opcode import Opcode
+from emulator.tools.bit_tools import BitTools
 
 class Commands8bits:
     # Loads from one place to another and returns the number of cycles
@@ -330,8 +331,8 @@ class Commands8bits:
         # setting flags
         cpu.register.z1 = 1 if addition == 0 else 0
         cpu.register.n1 = 0
-        cpu.register.h1 = 1 if Commands8bits.has4bitCarryOver(value1, value2) else 0
-        cpu.register.cy1 = 1 if Commands8bits.has8bitCarryOver(value1, value2) else 0
+        cpu.register.h1 = 1 if BitTools.has4bitCarryOver(value1, value2) else 0
+        cpu.register.cy1 = 1 if BitTools.has8bitCarryOver(value1, value2) else 0
         return addition
 
     def _sub_and_update_flags(cpu: CPU, value1: bytes, value2: bytes) -> bytes:
@@ -340,22 +341,6 @@ class Commands8bits:
         # setting flags
         cpu.register.z1 = 1 if sub == 0 else 0
         cpu.register.n1 = 1
-        cpu.register.h1 = 1 if Commands8bits.has4bitBorrow(value1, value2) else 0
-        cpu.register.cy1 = 1 if Commands8bits.has8bitBorrow(value1, value2) else 0
+        cpu.register.h1 = 1 if BitTools.has4bitBorrow(value1, value2) else 0
+        cpu.register.cy1 = 1 if BitTools.has8bitBorrow(value1, value2) else 0
         return sub
-
-    # returns true of there is a half carry over
-    def has4bitCarryOver(value1, value2) -> bool:
-        return ((( value1 & 0xf) + (value2 & 0xf)) & 0x10) == 0x10
-    
-    # returns true of there is a carry over
-    def has8bitCarryOver(value1, value2) -> bool:
-        return ((( value1 & 0xFF) + (value2 & 0xFF)) & 0x100) == 0x100
-
-    # returns true if in value1 - value 2, value2 > value 1 for 4 bits
-    def has4bitBorrow(value1, value2) -> bool:
-        return (value2  & 0xFF) > (value1 & 0xFF)
-
-    # returns true if in value1 - value 2, value2 > value 1 for 8 bits
-    def has8bitBorrow(value1, value2) -> bool:
-        return (value2  & 0xFFFF) > (value1 & 0xFFFF)

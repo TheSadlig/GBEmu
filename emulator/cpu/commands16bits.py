@@ -1,5 +1,6 @@
 from emulator.cpu.cpu import CPU
 from emulator.cpu.opcode import Opcode
+from emulator.tools.bit_tools import BitTools
 
 class Commands16bits:
     # Handles PUSH
@@ -52,14 +53,6 @@ class Commands16bits:
 
         # setting flags
         cpu.register.n1 = 0
-        cpu.register.h1 = 1 if Commands16bits.has12bitCarryOver(value1, value2) else 0
-        cpu.register.cy1 = 1 if Commands16bits.has16bitCarryOver(value1, value2) else 0
+        cpu.register.h1 = 1 if BitTools.has12bitCarryOver(value1, value2) else 0
+        cpu.register.cy1 = 1 if BitTools.has16bitCarryOver(value1, value2) else 0
         return addition
-
-    # returns true of there is a half carry over
-    def has12bitCarryOver(value1, value2) -> bool:
-        return ((( value1 & 0xFFF) + (value2 & 0xFFF)) & 0x1000) == 0x1000
-
-    # returns true of there is a carry over
-    def has16bitCarryOver(value1, value2) -> bool:
-        return ((( value1 & 0xFFFF) + (value2 & 0xFFFF)) & 0x10000) == 0x10000
