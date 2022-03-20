@@ -219,8 +219,9 @@ class Commands8bits:
     def RLC(cpu: CPU, opc:Opcode) -> int:
         value = opc.get_param1_value(cpu)
         removedbit = (value & 0b10000000) >> 7
-        cpu.register.cy1 = removedbit
         value = (value << 1) | removedbit
+
+        cpu.register.cy1 = removedbit
         cpu.register.n1 = 0 
         cpu.register.h1 = 0
         cpu.register.z1 = 1 if value == 0 else 0
@@ -232,9 +233,9 @@ class Commands8bits:
     def RL(cpu: CPU, opc:Opcode) -> int:
         value = opc.get_param1_value(cpu)
         removedbit = (value & 0b10000000) >> 7
-        oldcy1 = cpu.register.cy1
+        value = (value << 1) | cpu.register.cy1
+
         cpu.register.cy1 = removedbit
-        value = (value << 1) | oldcy1
         cpu.register.n1 = 0 
         cpu.register.h1 = 0
         cpu.register.z1 = 1 if value == 0 else 0
@@ -246,8 +247,9 @@ class Commands8bits:
     def RRC(cpu: CPU, opc:Opcode) -> int:
         value = opc.get_param1_value(cpu)
         removedbit = value & 0b00000001
-        cpu.register.cy1 = removedbit
         value = (value >> 1) | (removedbit << 7)
+
+        cpu.register.cy1 = removedbit
         cpu.register.n1 = 0 
         cpu.register.h1 = 0
         cpu.register.z1 = 1 if value == 0 else 0
@@ -259,9 +261,49 @@ class Commands8bits:
     def RR(cpu: CPU, opc:Opcode) -> int:
         value = opc.get_param1_value(cpu)
         removedbit = value & 0b00000001
-        oldcy1 = cpu.register.cy1
+        value = (value >> 1) | (cpu.register.cy1 << 7)
+
         cpu.register.cy1 = removedbit
-        value = (value >> 1) | (oldcy1 << 7)
+        cpu.register.n1 = 0 
+        cpu.register.h1 = 0
+        cpu.register.z1 = 1 if value == 0 else 0
+        
+        opc.set_param1_value(value)
+        return opc.cycles
+
+    def SLA(cpu: CPU, opc:Opcode) -> int:
+        value = opc.get_param1_value(cpu)
+        removedbit = (value & 0b10000000) >> 7
+        value = value << 1
+
+        cpu.register.cy1 = removedbit
+        cpu.register.n1 = 0 
+        cpu.register.h1 = 0
+        cpu.register.z1 = 1 if value == 0 else 0
+        
+        opc.set_param1_value(value)
+        return opc.cycles
+
+    def SRA(cpu: CPU, opc:Opcode) -> int:
+        value = opc.get_param1_value(cpu)
+        removedbit = (value & 0b1)
+        msb = (value & 0b10000000)
+        value = (value >> 1) | msb # The Most significant bit needs to be kept as MSB
+
+        cpu.register.cy1 = removedbit
+        cpu.register.n1 = 0 
+        cpu.register.h1 = 0
+        cpu.register.z1 = 1 if value == 0 else 0
+        
+        opc.set_param1_value(value)
+        return opc.cycles
+
+    def SRL(cpu: CPU, opc:Opcode) -> int:
+        value = opc.get_param1_value(cpu)
+        removedbit = (value & 0b1)
+        value = value >> 1
+
+        cpu.register.cy1 = removedbit
         cpu.register.n1 = 0 
         cpu.register.h1 = 0
         cpu.register.z1 = 1 if value == 0 else 0

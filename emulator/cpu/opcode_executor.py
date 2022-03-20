@@ -59,6 +59,12 @@ class OpcodeExecutor:
             return Commands8bits.RRC(cpu, opcode)
         elif opcode.instruction == "RR":
             return Commands8bits.RR(cpu, opcode)
+        elif opcode.instruction == "SLA":
+            return Commands8bits.SLA(cpu, opcode)
+        elif opcode.instruction == "SRA":
+            return Commands8bits.SRA(cpu, opcode)
+        elif opcode.instruction == "SRL":
+            return Commands8bits.SRL(cpu, opcode)
         elif opcode.instruction == "CPL":
             return Commands8bits.CPL(cpu, opcode)
         elif opcode.instruction == "CCF":
