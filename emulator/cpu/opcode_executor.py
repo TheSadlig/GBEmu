@@ -36,6 +36,10 @@ class OpcodeExecutor:
             return OpcodeExecutor.ADC(cpu, opcode)
         elif opcode.instruction == "SUB":
             return OpcodeExecutor.SUB(cpu, opcode)
+        elif opcode.instruction == "SBC":
+            return OpcodeExecutor.SBC(cpu, opcode)
+        elif opcode.instruction == "AND":
+            return OpcodeExecutor.AND(cpu, opcode)
 
     # Loads from one place to another and returns the number of cycles
     def LD(cpu, opc: Opcode) -> int:
@@ -118,6 +122,19 @@ class OpcodeExecutor:
         value2 = opc.get_param2_value(cpu)
         opc.set_param1_value(cpu, OpcodeExecutor._sub_and_update_flags(cpu, value1, value2 + cpu.register.cy1))
 
+        return opc.cycles
+
+    # Handles AND
+    def AND(cpu: CPU, opc: Opcode) -> int:
+        value1 = opc.get_param1_value(cpu)
+        value2 = opc.get_param2_value(cpu)
+        res = value1 & value2 
+        opc.set_param1_value(cpu, res)
+        
+        cpu.register.z1 = 1 if res == 0 else 0
+        cpu.register.n1 = 0
+        cpu.register.h1 = 1
+        cpu.register.cy1 = 0
         return opc.cycles
 
     def _add_and_update_flags(cpu: CPU, value1: bytes, value2: bytes) -> bytes:
