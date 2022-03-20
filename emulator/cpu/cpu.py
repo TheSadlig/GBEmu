@@ -1,10 +1,12 @@
 from emulator.cpu.register import Register
+from emulator.cpu.interrupts import Interrupts
 from emulator.memory.memory_proxy import MemoryProxy
 
 class CPU:
     def __init__(self, clock_speed):
         self.clock_speed = clock_speed
         self.register = Register()
+        self.interrupts = Interrupts()
         self.memory = MemoryProxy()
         self.clock_counter = 0
 #        self.executor = OpcodeExecutor()

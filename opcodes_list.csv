@@ -278,4 +278,10 @@ HALT,-,0x76,4
 
 # STOP
 STOP,-,0x10,4,#Changed from 0x1000 to 0x10
-DI -/- F3 4
+
+# DI - Disable interrupts
+DI,-,0xF3,4
+
+# EI - Enable interrupts
+EI,-,0xFB,4
+

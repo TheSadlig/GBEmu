@@ -1,6 +1,5 @@
 class Register:
     def __init__(self):
-        # For once we will keep everything public. There will be a lot of operations on those
         self._a8 = 0x0
         self._f8 = 0x0 # flag register
         self._b8 = 0x0
