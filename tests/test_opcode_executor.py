@@ -86,23 +86,23 @@ class testOpCodeExecutorLD(unittest.TestCase):
         self.assertEqual(cpu.register.pc16, testOpCodeExecutorLD.writtableMem + 1)
         self.assertEqual(cycles, 8)
 
-    def testHasHalfCarryOver(self):
-        self.assertTrue(OpcodeExecutor.hasHalfCarryOver(0xF, 0x1))
-        self.assertTrue(OpcodeExecutor.hasHalfCarryOver(0xA, 0x8))
+    def testHas4bitCarryOver(self):
+        self.assertTrue(OpcodeExecutor.has4bitCarryOver(0xF, 0x1))
+        self.assertTrue(OpcodeExecutor.has4bitCarryOver(0xA, 0x8))
 
-        self.assertFalse(OpcodeExecutor.hasHalfCarryOver(0x5, 0x1))
-        self.assertFalse(OpcodeExecutor.hasHalfCarryOver(0xA, 0x4))
-        self.assertFalse(OpcodeExecutor.hasHalfCarryOver(0xF, 0x0))
+        self.assertFalse(OpcodeExecutor.has4bitCarryOver(0x5, 0x1))
+        self.assertFalse(OpcodeExecutor.has4bitCarryOver(0xA, 0x4))
+        self.assertFalse(OpcodeExecutor.has4bitCarryOver(0xF, 0x0))
         
-    def testHasCarryOver(self):
-        self.assertTrue(OpcodeExecutor.hasCarryOver(0xFF, 0x01))
-        self.assertTrue(OpcodeExecutor.hasCarryOver(0xFF, 0xFF))
+    def testHas8bitCarryOver(self):
+        self.assertTrue(OpcodeExecutor.has8bitCarryOver(0xFF, 0x01))
+        self.assertTrue(OpcodeExecutor.has8bitCarryOver(0xFF, 0xFF))
         
-        self.assertFalse(OpcodeExecutor.hasCarryOver(0xAF, 0x41))
-        self.assertFalse(OpcodeExecutor.hasCarryOver(0xF, 0x01))
-        self.assertFalse(OpcodeExecutor.hasCarryOver(0x05, 0x01))
-        self.assertFalse(OpcodeExecutor.hasCarryOver(0xAF, 0x40))
-        self.assertFalse(OpcodeExecutor.hasCarryOver(0xFF, 0x00))
+        self.assertFalse(OpcodeExecutor.has8bitCarryOver(0xAF, 0x41))
+        self.assertFalse(OpcodeExecutor.has8bitCarryOver(0xF, 0x01))
+        self.assertFalse(OpcodeExecutor.has8bitCarryOver(0x05, 0x01))
+        self.assertFalse(OpcodeExecutor.has8bitCarryOver(0xAF, 0x40))
+        self.assertFalse(OpcodeExecutor.has8bitCarryOver(0xFF, 0x00))
         
 
 if __name__ == '__main__':
