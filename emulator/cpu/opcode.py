@@ -17,6 +17,9 @@ class Opcode:
 
     # returns the value for the FIRST param, based on the current state (CPU, registers and/or memory)
     def get_param1_value(self, cpu: CPU) -> bytes:
+        if self.params[0].isnumeric(): # For some operations, the spec will contain numbers (BIT)
+            return int(self.params[0])
+
         is_param1_address = self.params[0].startswith("(")
 
         param = self._clean_param(self.params[0])

@@ -310,6 +310,18 @@ class Commands8bits:
         
         opc.set_param1_value(value)
         return opc.cycles
+    
+    # Checks if the register contains a 1 at the given bit position (stores it in z1)
+    def BIT(cpu: CPU, opc: Opcode) -> int:
+        bit_position = opc.get_param1_value(cpu)
+        register_to_check = opc.get_param2_value(cpu)
+        mask = 0b1 << bit_position
+        wtf = ~((register_to_check & mask) >> bit_position) & 0b1
+
+        cpu.register.z1 = ~((register_to_check & mask) >> bit_position) & 0b1
+        cpu.register.n1 = 0
+        cpu.register.h1 = 1
+        return opc.cycles
 
     def _add_and_update_flags(cpu: CPU, value1: bytes, value2: bytes) -> bytes:
         # TODO We may need to handle the #FF + 1 case, as it loop back to 0 (won't here)

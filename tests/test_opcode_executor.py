@@ -115,6 +115,25 @@ class testOpCodeExecutorLD(unittest.TestCase):
         self.assertEqual(cpu.register.a8, 0b10010110)
         self.assertEqual(cycles, 8)
 
+    def testBIT(self):
+        cpu = self.init_cpu()
+
+        executor = OpcodeExecutor()
+        executor.load_opcodes()
+        cpu.register.c8 = 0b00000010
+        # BIT,"1,C",0xCB49,8
+        executor.execute(cpu, 0xCB49)
+
+        self.assertEqual(cpu.register.z1, 0b0)
+
+        cpu.register.c8 = 0b11111101
+
+        cycles = executor.execute(cpu, 0xCB49)
+        print("wtf"+ str(cpu.register.z1))
+
+        self.assertEqual(cpu.register.z1, 0b1)
+        self.assertEqual(cycles, 8)
+
     def testHas4bitCarryOver(self):
         self.assertTrue(Commands8bits.has4bitCarryOver(0xF, 0x1))
         self.assertTrue(Commands8bits.has4bitCarryOver(0xA, 0x8))

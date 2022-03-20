@@ -154,7 +154,7 @@ class Register:
     
     def set_bit(byte, position, value):
         byte = Register.clear_bit(byte, position)
-        byte = (byte | (value << 7)) 
+        byte = (byte | (value << position)) 
         return byte
 
     def get_bit(byte, position):
