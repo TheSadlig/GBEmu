@@ -87,6 +87,21 @@ LD,"(DE),A",0x12,8
 LD,"(HL),A",0x77,8
 LD,"(nn),A",0xEA,16
 LD,"A,($FF00+C)",0xF2,8, # Changed from LD A,(C) for clarity
+LD,"($FF00+n),A",0xE0,12
+LD,"A,($FF00+n)",0xF0,12
+LD,"BC,nn",0x01,12
+LD,"DE,nn",0x11,12
+LD,"HL,nn",0x21,12
+LD,"SP,nn",0x31,12
+LD,"SP,HL",0xF9,8
+
 # LDD operations
-LDD,"A,(HL)",3A,8
-LDD,(HL),A,32,8
+LDD,"A,(HL)",0x3A,8
+LDD,"(HL),A",0x32,8
+
+# LDI operations
+LDI,"A,(HL)",0x2A,8
+LDI,"(HL),A",0x22,8
+
+# LDHL operations
+LDHL,"SP,n",F8,12
