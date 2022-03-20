@@ -51,14 +51,14 @@ class OpcodeExecutor:
             return Commands8bits.SWAP(cpu, opcode)
         elif opcode.instruction == "DAA":
             return Commands8bits.DAA(cpu, opcode)
-        elif opcode.instruction == "RLCA":
-            return Commands8bits.RLCA(cpu, opcode)
-        elif opcode.instruction == "RLA":
-            return Commands8bits.RLA(cpu, opcode)
-        elif opcode.instruction == "RRCA":
-            return Commands8bits.RRCA(cpu, opcode)
-        elif opcode.instruction == "RRA":
-            return Commands8bits.RRA(cpu, opcode)
+        elif opcode.instruction == "RLC":
+            return Commands8bits.RLC(cpu, opcode)
+        elif opcode.instruction == "RL":
+            return Commands8bits.RL(cpu, opcode)
+        elif opcode.instruction == "RRC":
+            return Commands8bits.RRC(cpu, opcode)
+        elif opcode.instruction == "RR":
+            return Commands8bits.RR(cpu, opcode)
         elif opcode.instruction == "CPL":
             return Commands8bits.CPL(cpu, opcode)
         elif opcode.instruction == "CCF":

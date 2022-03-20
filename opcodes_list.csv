@@ -285,14 +285,54 @@ DI,-,0xF3,4
 # EI - Enable interrupts
 EI,-,0xFB,4
 
-# RLCA Rotate left (changed from RLCA -/- for compatibilty)
-RLCA,A,0x07,4
+# RLC Rotate left (changed from RLCA -/- for compatibilty)
+RLC,A,0x07,4
 
-# RLA Rotate left (changed from RLA -/- for compatibilty)
-RLA,A,0x17,4
+# RLC Rotate left 
+RLC,A,0xCB07,8
+RLC,B,0xCB00,8
+RLC,C,0xCB01,8
+RLC,D,0xCB02,8
+RLC,E,0xCB03,8
+RLC,H,0xCB04,8
+RLC,L,0xCB05,8
+RLC,(HL),0xCB06,16
 
-# RRCA Rotate right (changed from RRCA -/- for compatibilty)
-RRCA,A,0x0F,4
+# RL Rotate left (changed from RLA -/- for compatibilty)
+RL,A,0x17,4
 
-# RRA Rotate right (changed from RRA -/- for compatibilty)
-RRA,-,0x1F,4
+# RL Rotate left
+RL,A,0xCB17,8
+RL,B,0xCB10,8
+RL,C,0xCB11,8
+RL,D,0xCB12,8
+RL,E,0xCB13,8
+RL,H,0xCB14,8
+RL,L,0xCB15,8
+RL,(HL),0xCB16,16
+
+# RRC Rotate right (changed from RRCA -/- for compatibilty)
+RRC,A,0x0F,4
+
+# RRC Rotate right
+RRC,A,0xCB0F,8
+RRC,B,0xCB08,8
+RRC,C,0xCB09,8
+RRC,D,0xCB0A,8
+RRC,E,0xCB0B,8
+RRC,H,0xCB0C,8
+RRC,L,0xCB0D,8
+RRC,(HL),0xCB0E,16
+
+# RR Rotate right (changed from RRA -/- for compatibilty)
+RR,-,0x1F,4
+
+# RR Rotate right
+RR,A,0xCB1F,8
+RR,B,0xCB18,8
+RR,C,0xCB19,8
+RR,D,0xCB1A,8
+RR,E,0xCB1B,8
+RR,H,0xCB1C,8
+RR,L,0xCB1D,8
+RR,(HL),0xCB1E,16

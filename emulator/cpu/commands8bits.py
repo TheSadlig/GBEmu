@@ -215,8 +215,8 @@ class Commands8bits:
         cpu.interrupts.enable_interrupts_after_next = 1
         return opc.cycles
 
-    # Rotates A left
-    def RLCA(cpu: CPU, opc:Opcode) -> int:
+    # Rotates register left
+    def RLC(cpu: CPU, opc:Opcode) -> int:
         value = opc.get_param1_value(cpu)
         removedbit = (value & 0b10000000) >> 7
         cpu.register.cy1 = removedbit
@@ -228,8 +228,8 @@ class Commands8bits:
         opc.set_param1_value(value)
         return opc.cycles
 
-    # Rotates A left through cy1
-    def RLA(cpu: CPU, opc:Opcode) -> int:
+    # Rotates register left through cy1
+    def RL(cpu: CPU, opc:Opcode) -> int:
         value = opc.get_param1_value(cpu)
         removedbit = (value & 0b10000000) >> 7
         oldcy1 = cpu.register.cy1
@@ -242,8 +242,8 @@ class Commands8bits:
         opc.set_param1_value(value)
         return opc.cycles
 
-    # Rotates A right
-    def RRCA(cpu: CPU, opc:Opcode) -> int:
+    # Rotates register right
+    def RRC(cpu: CPU, opc:Opcode) -> int:
         value = opc.get_param1_value(cpu)
         removedbit = value & 0b00000001
         cpu.register.cy1 = removedbit
@@ -256,7 +256,7 @@ class Commands8bits:
         return opc.cycles
 
     # Rotates A right through cy1
-    def RRA(cpu: CPU, opc:Opcode) -> int:
+    def RR(cpu: CPU, opc:Opcode) -> int:
         value = opc.get_param1_value(cpu)
         removedbit = value & 0b00000001
         oldcy1 = cpu.register.cy1
