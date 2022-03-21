@@ -18,8 +18,16 @@ class CPU:
 
     def execute_next(self):
         inst = self.get_next_opcode()
-#        self.executor.execute(self, inst)
-    
+
+    def push_8bits_to_stack(self, data: bytes) -> int:
+        self.memory.write8(self.register.sp16, data)
+        self.register.sp16 -= 1
+        return self.register.sp16 
+
+    def pop_8bits_to_stack(self) -> bytes:
+        self.register.sp16 += 1
+        return self.memory.read8(self.register.sp16)
+
     def run(self):
         i = 0
         max_loop = 100

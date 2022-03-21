@@ -579,3 +579,10 @@ JR,"NZ,n",0x20,8
 JR,"Z,n",0x28,8
 JR,"NC,n",0x30,8
 JR,"C,n",0x38,8
+
+# CALL  (changed from CALL nn)
+CALL,"1,nn",0xCD,12
+CALL,"NZ,nn",0xC4,12
+CALL,"Z,nn",0xCC,12
+CALL,"NC,nn",0xD4,12
+CALL,"C,nn",0xDC,12

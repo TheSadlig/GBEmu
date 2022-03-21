@@ -1,6 +1,7 @@
 # This class routes the request to the correct memory based on its address
 # It contains the whole gameboy memory (WRAM, VRAM, ROM)
 
+from audioop import add
 from xmlrpc.client import boolean
 from emulator.memory.memory import Ram, Rom, Memory
 
@@ -47,6 +48,8 @@ class MemoryProxy:
         self._add_memory_block(MemoryProxy.IO_END, MemoryProxy.HRAM_END)
 
     def write8(self, address16: bytes, data8: bytes):
+        if len(data8) > 8:
+            raise MemoryAccessError("Cannot write more than 8 bits at a time. Tried to write: " + str(hex(data8)), address16)
         for memory_block in self.addressable_memory:
             if memory_block.is_adress_in_range(address16) and memory_block.is_writable():
                 memory_block.write8(address16, data8)
