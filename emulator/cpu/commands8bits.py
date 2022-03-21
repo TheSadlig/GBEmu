@@ -312,14 +312,20 @@ class Commands8bits:
         opc.set_param1_value(value)
         return opc.cycles
     
+    # SET the given bit position in the register
+    def SET(cpu: CPU, opc: Opcode) -> int:
+        bit_position = opc.get_param1_value(cpu)
+        register = opc.get_param2_value(cpu)
+
+        opc.set_param1_value(cpu, BitTools.set_bit(register, bit_position, 1))
+        return opc.cycles
+
     # Checks if the register contains a 1 at the given bit position (stores it in z1)
     def BIT(cpu: CPU, opc: Opcode) -> int:
         bit_position = opc.get_param1_value(cpu)
         register_to_check = opc.get_param2_value(cpu)
-        mask = 0b1 << bit_position
-        wtf = ~((register_to_check & mask) >> bit_position) & 0b1
 
-        cpu.register.z1 = ~((register_to_check & mask) >> bit_position) & 0b1
+        cpu.register.z1 = ~(BitTools.get_bit(register_to_check, bit_position))
         cpu.register.n1 = 0
         cpu.register.h1 = 1
         return opc.cycles
