@@ -566,9 +566,16 @@ RES,"7,(HL)",0xCBBE,16
 
 # JP (changed from JP nn)
 JP,"1,nn",0xC3,12
+JP,"1,(HL)",0xE9,4
 
 JP,"NZ,nn",0xC2,12
 JP,"Z,nn",0xCA,12
 JP,"NCY,nn",0xD2,12
 JP,"CY,nn",0xDA,12
-JP,"(HL)",0xE9,4
+
+# JR (changed from JR n)
+JR,"1,n",0x18,8
+JR,"NZ,n",0x20,8
+JR,"Z,n",0x28,8
+JR,"NC,n",0x30,8
+JR,"C,n",0x38,8
