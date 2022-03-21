@@ -53,9 +53,10 @@ class Opcode:
             # we need to handle a hardcoded address: e.g. $FFEE+C
             param_splitted = param.split('+')
             param_address1 = int(param_splitted[0].removeprefix('$'), 16)
-            param_address2 = self._get_from_reg(cpu, param_splitted[1])
-
-            return param_address1 + param_address2
+            if len(param_splitted) == 2:
+                param_address2 = self._get_from_reg(cpu, param_splitted[1])
+                return param_address1 + param_address2
+            return param_address1
         elif (param == 'n'):
             # 8 bit immediate
             previousPcValue = register.pc16

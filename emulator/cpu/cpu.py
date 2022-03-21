@@ -19,14 +19,24 @@ class CPU:
     def execute_next(self):
         inst = self.get_next_opcode()
 
-    def push_8bits_to_stack(self, data: bytes) -> int:
-        self.memory.write8(self.register.sp16, data)
+    def push_16bits_to_stack(self, data16: bytes) -> int:
+        self.push_8bits_to_stack((data16 | 0xFF00) >> 8)
+        self.push_8bits_to_stack(data16 | 0xFF)
+        return self.register.sp16
+
+    def push_8bits_to_stack(self, data8: bytes) -> int:
+        self.memory.write8(self.register.sp16, data8)
         self.register.sp16 -= 1
         return self.register.sp16 
 
-    def pop_8bits_to_stack(self) -> bytes:
+    def pop_8bits_from_stack(self) -> bytes:
         self.register.sp16 += 1
         return self.memory.read8(self.register.sp16)
+
+    def pop_16bits_from_stack(self) -> bytes:
+        low = self.pop_8bits_from_stack()
+        high = self.pop_8bits_from_stack()
+        return (high << 8) | low
 
     def run(self):
         i = 0

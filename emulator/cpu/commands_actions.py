@@ -13,9 +13,7 @@ class CommandsActions:
 
     # Handles POP
     def POP(cpu: CPU, opc: Opcode) -> int:
-        low = cpu.pop_8bits_to_stack()
-        high = cpu.pop_8bits_to_stack()
-        opc.set_param1_value(high << 8 | low)
+        opc.set_param1_value(cpu.pop_16bits_from_stack())
         return opc.cycles
 
     def JP(cpu:CPU, opc: Opcode) -> int:
@@ -40,6 +38,19 @@ class CommandsActions:
         if shouldCall == 1:
             jumpAddress = opc.get_param2_value(cpu)
             nextAddress = cpu.register.pc16 + 1
-            cpu.push_8bits_to_stack((nextAddress | 0xFF00) >> 8)
-            cpu.push_8bits_to_stack(nextAddress | 0xFF)
+            cpu.push_16bits_to_stack(nextAddress)
+            cpu.register.pc16 = jumpAddress
+        return opc.cycles
+
+    def RST(cpu:CPU, opc: Opcode) -> int:
+        jumpAddress = opc.get_param2_value(cpu)
+        cpu.push_16bits_to_stack(cpu.register.pc16)
+        cpu.register.pc16 = jumpAddress # $0000 + n
+        return opc.cycles
+
+    def RET(cpu:CPU, opc: Opcode) -> int:
+        shouldJump = opc.get_param1_value(cpu)
+        if (shouldJump):
+            jumpAddress = cpu.pop_16bits_from_stack()
+            cpu.register.pc16 = jumpAddress
         return opc.cycles

@@ -89,6 +89,14 @@ class OpcodeExecutor:
             return
         elif opcode.instruction == "JP":
             return CommandsActions.JP(cpu, opcode)
+        elif opcode.instruction == "JR":
+            return CommandsActions.JR(cpu, opcode)
+        elif opcode.instruction == "CALL":
+            return CommandsActions.CALL(cpu, opcode)
+        elif opcode.instruction == "RST":
+            return CommandsActions.RST(cpu, opcode)
+        elif opcode.instruction == "RET":
+            return CommandsActions.RET(cpu, opcode)
         # 16 bits
         elif opcode.instruction == "PUSH":
             return Commands16bits.PUSH(cpu, opcode)
