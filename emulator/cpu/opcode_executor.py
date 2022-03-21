@@ -70,6 +70,8 @@ class OpcodeExecutor:
         elif opcode.instruction == "BIT":
             return Commands8bits.SET(cpu, opcode)
         elif opcode.instruction == "SET":
+            return Commands8bits.RES(cpu, opcode)
+        elif opcode.instruction == "RES":
             return Commands8bits.CPL(cpu, opcode)
         elif opcode.instruction == "CCF":
             return Commands8bits.CCF(cpu, opcode)
