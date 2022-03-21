@@ -171,3 +171,15 @@ class Register:
     
     def set_register_by_name(self, registerName, value):
         return Register.__setattr__(self, registerName, value)
+    
+    def __str__(self) -> str:
+        return ("\ta8: " + str(hex(self.a8)) 
+        + "\n\tf8: " + str(hex(self.f8))
+        + "\n\tb8: " + str(hex(self.b8))
+        + "\n\tc8: " + str(hex(self.c8))
+        + "\n\td8: " + str(hex(self.d8))
+        + "\n\te8: " + str(hex(self.e8))
+        + "\n\th8: " + str(hex(self.h8))
+        + "\n\tl8: " + str(hex(self.l8))
+        + "\n\tsp16: " + str(hex(self.sp16)) 
+        + "\n\tpc16: " + str(hex(self.pc16)))

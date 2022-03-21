@@ -12,7 +12,11 @@ class MainLoop:
         # init programm counter to 0x100
         self._cpu.register.pc16 = 0x100
         self._cpu.register.sp16 = 0xFFFE
-
+        self._cpu.register.af16=0x01B0
+        self._cpu.register.bc16=0x0013
+        self._cpu.register.de16=0x00D8
+        self._cpu.register.hl16=0x014D
+   
     def step(self):
         instruction = self._cpu.get_next_opcode()
         self._executor.execute(self._cpu, instruction)
@@ -33,7 +37,13 @@ def main(argv):
         loop = MainLoop(f.read())
         while True:
             input("Press Enter to continue...")
-            loop.step()
+            try:
+                loop.step()
+                print(loop._cpu)
+            except Exception as ex:
+                print(loop._cpu)
+                print(ex)
+                sys.exit(2)
     else:
         sys.exit(2)
         

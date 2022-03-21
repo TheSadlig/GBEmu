@@ -42,3 +42,5 @@ class CPU:
             i += 1
             self.execute_next()
 
+    def __str__(self) -> str:
+        return "Register: \n"+str(self.register) + "\nInterrupts\n" + str(self.interrupts) + "\nMemory\n" + str(self.memory)
