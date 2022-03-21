@@ -3,25 +3,21 @@ from emulator.cpu.interrupts import Interrupts
 from emulator.memory.memory_proxy import MemoryProxy
 
 class CPU:
-    def __init__(self, clock_speed):
-        self.clock_speed = clock_speed
+    def __init__(self, cartridge_bytes):
         self.register = Register()
         self.interrupts = Interrupts()
         self.memory = MemoryProxy()
+        self.memory.load_cartridge(0x0, cartridge_bytes)
         self.clock_counter = 0
-#        self.executor = OpcodeExecutor()
 
     def get_next_opcode(self):
         opcode = self.memory.read8(self.register.pc16)
         self.register.pc16 += 1
         return opcode
 
-    def execute_next(self):
-        inst = self.get_next_opcode()
-
     def push_16bits_to_stack(self, data16: bytes) -> int:
-        self.push_8bits_to_stack((data16 | 0xFF00) >> 8)
-        self.push_8bits_to_stack(data16 | 0xFF)
+        self.push_8bits_to_stack(data16 >> 8)
+        self.push_8bits_to_stack(data16 & 0xFF)
         return self.register.sp16
 
     def push_8bits_to_stack(self, data8: bytes) -> int:

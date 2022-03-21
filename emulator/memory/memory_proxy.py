@@ -48,8 +48,8 @@ class MemoryProxy:
         self._add_memory_block(MemoryProxy.IO_END, MemoryProxy.HRAM_END)
 
     def write8(self, address16: bytes, data8: bytes):
-        if len(data8) > 8:
-            raise MemoryAccessError("Cannot write more than 8 bits at a time. Tried to write: " + str(hex(data8)), address16)
+#        if len(data8) > 8:
+#            raise MemoryAccessError("Cannot write more than 8 bits at a time. Tried to write: " + str(hex(data8)), address16)
         for memory_block in self.addressable_memory:
             if memory_block.is_adress_in_range(address16) and memory_block.is_writable():
                 memory_block.write8(address16, data8)
@@ -63,7 +63,7 @@ class MemoryProxy:
         raise MemoryAccessError("Could not read from address. Block is non-existent", address16)
 
     # loads a bytearray directly into a ROM address
-    def load_rom(self, address16: bytes, memory_to_write: bytearray):
+    def load_cartridge(self, address16: bytes, memory_to_write: bytearray):
         for memory_block in self.addressable_memory:
             if memory_block.is_adress_in_range(address16) and not memory_block.is_writable():
                 memory_block.load(memory_to_write)

@@ -20,6 +20,8 @@ class OpcodeExecutor:
     # Assumes that if opc_hex starts with CB, the next Byte is already retrieved !
     def execute(self, cpu: CPU, opc_hex: int):    
         opcode = self.opcodes[opc_hex]
+        print("-------")
+        print(opcode)
         if opcode.instruction == "LD":
             return Commands8bits.LD(cpu, opcode)
         elif opcode.instruction == "LDD":
@@ -97,6 +99,10 @@ class OpcodeExecutor:
             return CommandsActions.RST(cpu, opcode)
         elif opcode.instruction == "RET":
             return CommandsActions.RET(cpu, opcode)
+        elif opcode.instruction == "EI":
+            return Commands8bits.EI(cpu, opcode)
+        elif opcode.instruction == "DI":
+            return Commands8bits.DI(cpu, opcode)
         # 16 bits
         elif opcode.instruction == "PUSH":
             return Commands16bits.PUSH(cpu, opcode)
@@ -110,4 +116,6 @@ class OpcodeExecutor:
             return Commands16bits.INC16(cpu, opcode)
         elif opcode.instruction == "DEC16":
             return Commands16bits.DEC16(cpu, opcode)
+        else:
+            print("Unknown: "+ str(opcode))
         

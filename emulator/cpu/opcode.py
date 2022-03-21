@@ -67,7 +67,7 @@ class Opcode:
             # get_param2_value may get the value from the returned address (if "(nn)" and not "nn")
             previousPcValue = register.pc16
             register.pc16 += 2
-            return cpu.memory.read8(previousPcValue) << 8 | cpu.memory.read8(previousPcValue + 1) 
+            return cpu.memory.read8(previousPcValue) | cpu.memory.read8(previousPcValue + 1) << 8 
         elif (param == "cy"):
             return register.cy1
         elif (param == "ncy"):

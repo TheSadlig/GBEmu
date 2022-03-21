@@ -7,8 +7,7 @@ class CommandsActions:
     # Handles PUSH
     def PUSH(cpu: CPU, opc: Opcode) -> int:
         value = opc.get_param2_value(cpu)
-        cpu.push_8bits_to_stack((value | 0xFF00) >> 8)
-        cpu.push_8bits_to_stack(value | 0xFF)
+        cpu.push_16bits_to_stack(value)
         return opc.cycles
 
     # Handles POP
@@ -43,7 +42,7 @@ class CommandsActions:
         return opc.cycles
 
     def RST(cpu:CPU, opc: Opcode) -> int:
-        jumpAddress = opc.get_param2_value(cpu)
+        jumpAddress = opc.get_param1_value(cpu)
         cpu.push_16bits_to_stack(cpu.register.pc16)
         cpu.register.pc16 = jumpAddress # $0000 + n
         return opc.cycles
