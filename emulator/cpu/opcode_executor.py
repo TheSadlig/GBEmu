@@ -1,6 +1,7 @@
 import csv
-from emulator.cpu.commands16bits import Commands16bits
-from emulator.cpu.commands8bits import Commands8bits
+from emulator.cpu.commands_16bits import Commands16bits
+from emulator.cpu.commands_8bits import Commands8bits
+from emulator.cpu.commands_actions import CommandsActions
 from emulator.cpu.cpu import CPU
 from emulator.cpu.opcode import Opcode
 
@@ -86,6 +87,8 @@ class OpcodeExecutor:
         elif opcode.instruction == "STOP":
             # TODO: evaluate whether we need to do something for that ?
             return
+        elif opcode.instruction == "JP":
+            return CommandsActions.JP(cpu, opcode)
         # 16 bits
         elif opcode.instruction == "PUSH":
             return Commands16bits.PUSH(cpu, opcode)

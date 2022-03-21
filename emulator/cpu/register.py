@@ -150,7 +150,21 @@ class Register:
     def cy1(self, value):
         self.f8 = BitTools.set_bit(self.f8, 4, value)
 
+    @property
+    def nz1(self):
+        return ~self.z1
 
+    @nz1.setter
+    def nz1(self, value):
+        self.z1 = ~value
+
+    @property
+    def ncy1(self):
+        return ~self.cy1
+
+    @ncy1.setter
+    def ncy1(self, value):
+        self.cy1 = ~value
 
     def get_register_by_name(self, registerName):
         return Register.__getattribute__(self, registerName)

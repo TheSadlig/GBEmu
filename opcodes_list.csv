@@ -563,3 +563,12 @@ RES,"7,E",0xCBBB,8
 RES,"7,H",0xCBBC,8
 RES,"7,L",0xCBBD,8
 RES,"7,(HL)",0xCBBE,16
+
+# JP (changed from JP nn)
+JP,"1,nn",0xC3,12
+
+JP,"NZ,nn",0xC2,12
+JP,"Z,nn",0xCA,12
+JP,"NCY,nn",0xD2,12
+JP,"CY,nn",0xDA,12
+JP,"(HL)",0xE9,4

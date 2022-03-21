@@ -1,5 +1,5 @@
 from audioop import add
-from emulator.cpu.commands8bits import Commands8bits
+from emulator.cpu.commands_8bits import Commands8bits
 from emulator.cpu.cpu import CPU
 from emulator.cpu.opcode_executor import OpcodeExecutor
 import unittest

@@ -67,7 +67,15 @@ class Opcode:
             previousPcValue = register.pc16
             register.pc16 += 2
             return cpu.memory.read8(previousPcValue) << 8 | cpu.memory.read8(previousPcValue + 1) 
-        elif (len(param) == 1):
+        elif (param == "cy"):
+            return register.cy1
+        elif (param == "ncy"):
+            return register.ncy1 
+        elif (param == "z"):
+            return register.z1
+        elif (param == "nz"):
+            return register.nz1
+        elif (len(param) == 1): 
             # Single letter, simple 8b register
             param = param + "8" 
             print("Getting register " + param)
