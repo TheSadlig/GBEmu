@@ -54,3 +54,8 @@ class CommandsActions:
             jumpAddress = cpu.pop_16bits_from_stack()
             cpu.register.pc16 = jumpAddress
         return opc.cycles
+
+    def RETI(cpu:CPU, opc: Opcode) -> int:
+        CommandsActions.RET(cpu, opc)
+        cpu.interrupts.interrupts_enabled = True
+        return opc.cycles

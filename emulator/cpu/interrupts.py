@@ -5,4 +5,4 @@ class Interrupts:
         self.disable_interrupts_after_next = 0
         self.enable_interrupts_after_next = 0
 
-        self.are_interrupts_enabled = 1
+        self.interrupts_enabled = 1
